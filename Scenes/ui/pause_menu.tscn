@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b3f7toxed4v2o"]
+
+[ext_resource type="Script" uid="uid://drcrfevr2njro" path="res://Scripts/ui/pause_menu.gd" id="1_36lgw"]
+[ext_resource type="PackedScene" uid="uid://dml34suew2glf" path="res://Scenes/background.tscn" id="1_miudh"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1324838893]
+process_mode = 3
+script = ExtResource("1_36lgw")
+
+[node name="Background" parent="." unique_id=510856487 instance=ExtResource("1_miudh")]
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1260668627]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=36456663]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=685267804]
+layout_mode = 2
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=119507968]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1618752317]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=873804335]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit to Menu"

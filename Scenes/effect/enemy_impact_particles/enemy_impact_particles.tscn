@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://dp5cvajlkl4uc"]
+
+[ext_resource type="Texture2D" uid="uid://df41jf4yiy0mt" path="res://Assets/particles.png" id="1_q2ts7"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jdt08"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_rwjs8"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.83137256, 0.17254902, 0.30980393, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_shvd2"]
+gradient = SubResource("Gradient_rwjs8")
+
+[sub_resource type="Curve" id="Curve_6sj0q"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.11111112, 1), 0.0, 0.0, 0, 0, Vector2(0.59003836, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_6eo8m"]
+curve = SubResource("Curve_6sj0q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ccggo"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(1, -1, 0)
+spread = 70.0
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, 700, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_6eo8m")
+color_initial_ramp = SubResource("GradientTexture1D_shvd2")
+anim_offset_max = 1.0
+
+[sub_resource type="Animation" id="Animation_q2ts7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_jdt08"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.96666664),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rwjs8"]
+_data = {
+&"RESET": SubResource("Animation_q2ts7"),
+&"default": SubResource("Animation_jdt08")
+}
+
+[node name="EnemyImpactParticles" type="Node2D" unique_id=1675229396]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=158111542]
+material = SubResource("CanvasItemMaterial_jdt08")
+emitting = false
+amount = 3
+texture = ExtResource("1_q2ts7")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_ccggo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1060632952]
+libraries/ = SubResource("AnimationLibrary_rwjs8")
+autoplay = &"default"

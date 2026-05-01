@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://itf38p6njb0r"]
+
+[ext_resource type="Script" uid="uid://x31o8budaxp2" path="res://Scripts/main.gd" id="1_jjgbg"]
+[ext_resource type="Texture2D" uid="uid://jvgd0rllilgp" path="res://Assets/arena.png" id="2_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://dbiasvdttxddl" path="res://Scenes/enemy_manager.tscn" id="3_8gbba"]
+[ext_resource type="PackedScene" uid="uid://duo6246wy77ah" path="res://Scenes/lobby_manager.tscn" id="3_344ge"]
+[ext_resource type="PackedScene" uid="uid://yv2ktqa0dfec" path="res://Scenes/ui/game_ui.tscn" id="3_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://b3f7toxed4v2o" path="res://Scenes/ui/pause_menu.tscn" id="4_6bp64"]
+[ext_resource type="PackedScene" uid="uid://tl0pdvk5nhhh" path="res://Scenes/game_camera.tscn" id="4_21xkr"]
+[ext_resource type="PackedScene" uid="uid://dbq8n170bqdbk" path="res://Scenes/manager/upgrade_manager.tscn" id="4_ynf5e"]
+[ext_resource type="Texture2D" uid="uid://db6p4txxx71vy" path="res://Assets/clip_mask.png" id="5_kry3j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bo1nx"]
+size = Vector2(32, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8gbba"]
+size = Vector2(450, 32)
+
+[node name="Main" type="Node" unique_id=584789319]
+script = ExtResource("1_jjgbg")
+
+[node name="EnemyManager" parent="." unique_id=1497527626 node_paths=PackedStringArray("enemy_spawn_root", "spawn_rect", "upgrade_manager") instance=ExtResource("3_8gbba")]
+enemy_spawn_root = NodePath("../YSortRoot")
+spawn_rect = NodePath("../SpawnRect")
+upgrade_manager = NodePath("../UpgradeManager")
+
+[node name="LobbyManager" parent="." unique_id=974005330 instance=ExtResource("3_344ge")]
+
+[node name="UpgradeManager" parent="." unique_id=1604262829 node_paths=PackedStringArray("enemy_manager", "spawn_position", "spawn_root") instance=ExtResource("4_ynf5e")]
+enemy_manager = NodePath("../EnemyManager")
+spawn_position = NodePath("../CenterPosition")
+spawn_root = NodePath("../YSortRoot")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=837854794]
+_spawnable_scenes = PackedStringArray("uid://drkduhc11ouid", "uid://1fajpm0wtfms")
+spawn_path = NodePath("../YSortRoot")
+
+[node name="GameUI" parent="." unique_id=1449756625 node_paths=PackedStringArray("enemy_manager", "lobby_manager") instance=ExtResource("3_jjvhh")]
+enemy_manager = NodePath("../EnemyManager")
+lobby_manager = NodePath("../LobbyManager")
+
+[node name="PauseMenu" parent="." unique_id=1324838893 instance=ExtResource("4_6bp64")]
+visible = false
+
+[node name="GameCamera" parent="." unique_id=1192759808 instance=ExtResource("4_21xkr")]
+position = Vector2(320, 180)
+metadata/_edit_lock_ = true
+
+[node name="CenterPosition" type="Marker2D" parent="." unique_id=1627906137]
+position = Vector2(320, 185)
+metadata/_edit_lock_ = true
+
+[node name="Arena" type="Sprite2D" parent="." unique_id=1472861807]
+position = Vector2(320, 185)
+texture = ExtResource("2_bo1nx")
+metadata/_edit_lock_ = true
+
+[node name="SpawnRect" type="ReferenceRect" parent="." unique_id=466004941]
+custom_minimum_size = Vector2(414, 216)
+offset_left = 113.0
+offset_top = 73.0
+offset_right = 527.0
+offset_bottom = 289.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="StaticBodies" type="Node2D" parent="." unique_id=944093095]
+visible = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="StaticBodies" unique_id=1747968176]
+position = Vector2(79, 183)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodies/StaticBody2D" unique_id=927539398]
+shape = SubResource("RectangleShape2D_bo1nx")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="StaticBodies" unique_id=968999674]
+position = Vector2(561, 183)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodies/StaticBody2D2" unique_id=2079157873]
+shape = SubResource("RectangleShape2D_bo1nx")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="StaticBodies" unique_id=685432320]
+position = Vector2(320, 39)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodies/StaticBody2D3" unique_id=1304367588]
+shape = SubResource("RectangleShape2D_8gbba")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="StaticBodies" unique_id=863229767]
+position = Vector2(320, 321)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBodies/StaticBody2D4" unique_id=1847439630]
+shape = SubResource("RectangleShape2D_8gbba")
+metadata/_edit_lock_ = true
+
+[node name="BackgroundEffects" type="Node2D" parent="." unique_id=1580310328]
+metadata/_edit_lock_ = true
+
+[node name="BackgroundMask" type="Sprite2D" parent="BackgroundEffects" unique_id=139415288]
+unique_name_in_owner = true
+clip_children = 1
+position = Vector2(320, 180)
+texture = ExtResource("5_kry3j")
+metadata/_edit_lock_ = true
+
+[node name="YSortRoot" type="Node2D" parent="." unique_id=711896086]
+y_sort_enabled = true
+metadata/_edit_lock_ = true

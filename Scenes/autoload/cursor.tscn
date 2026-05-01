@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cx6777mnke2cu"]
+
+[ext_resource type="Script" uid="uid://b0i4p7wwpjt3m" path="res://Scripts/autoload/cursor.gd" id="1_gc77r"]
+[ext_resource type="Texture2D" uid="uid://c3lcamcnnhkgo" path="res://Assets/ui/crosshair.png" id="1_rtelp"]
+
+[node name="Cursor" type="CanvasLayer" unique_id=1887916408]
+process_mode = 3
+layer = 100
+script = ExtResource("1_gc77r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1907838457]
+texture = ExtResource("1_rtelp")

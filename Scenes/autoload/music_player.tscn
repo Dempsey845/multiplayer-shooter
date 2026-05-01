@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c3mhwrg6acgme"]
+
+[ext_resource type="AudioStream" uid="uid://cmj1x015bnvdx" path="res://Assets/audio/All Your Organs Get A Laugh.mp3" id="1_41uiu"]
+
+[node name="MusicPlayer" type="Node" unique_id=119764635]
+process_mode = 3
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1674251899]
+stream = ExtResource("1_41uiu")
+volume_db = -15.0
+autoplay = true
+bus = &"music"
