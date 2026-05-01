@@ -207,7 +207,7 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_si202"]
 radius = 32.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cegtr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_si202"]
 resource_local_to_scene = true
 shader = ExtResource("9_6tybd")
 shader_parameter/percent = 0.0
@@ -249,7 +249,7 @@ theme_override_constants/separation = 0
 [node name="TitleLabel" type="Label" parent="InfoContainer" unique_id=1882284324]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.83137256, 0.17254902, 0.30980393, 1)
+theme_override_colors/font_color = Color(1, 0.93333334, 0.5137255, 1)
 theme_override_constants/outline_size = 4
 text = "Example Titile"
 horizontal_alignment = 1
@@ -279,7 +279,7 @@ collision_mask = 8
 shape = SubResource("CircleShape2D_si202")
 
 [node name="HitFlashSpriteComponent" parent="." unique_id=867602081 node_paths=PackedStringArray("health_component") instance=ExtResource("5_si202")]
-material = SubResource("ShaderMaterial_cegtr")
+material = SubResource("ShaderMaterial_si202")
 position = Vector2(0, -16)
 texture = ExtResource("3_hefq8")
 health_component = NodePath("../HealthComponent")

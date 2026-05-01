@@ -15,8 +15,8 @@ signal selected(index: int, for_peer_id: int)
 
 @onready var hit_stream_player: AudioStreamPlayer = $HitStreamPlayer
 
-var impact_particles_scene: PackedScene = preload("uid://dp5cvajlkl4uc")
-var ground_particles_scene: PackedScene = preload("uid://clql2p3h4o5np")
+var impact_particles_scene: PackedScene = preload("uid://cgl7co06sgvr7")
+var ground_particles_scene: PackedScene = preload("uid://b55myea8a74s2")
 
 var upgrade_index: int
 var assigned_resource: UpgradeResource

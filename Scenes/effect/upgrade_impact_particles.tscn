@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://dp5cvajlkl4uc"]
+[gd_scene format=3 uid="uid://cgl7co06sgvr7"]
 
-[ext_resource type="Texture2D" uid="uid://df41jf4yiy0mt" path="res://Assets/particles.png" id="1_q2ts7"]
+[ext_resource type="Texture2D" uid="uid://df41jf4yiy0mt" path="res://Assets/particles.png" id="1_2tntr"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jdt08"]
 particles_animation = true
@@ -9,8 +9,8 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_rwjs8"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.9019608, 0.27058825, 0.22352941, 1)
+offsets = PackedFloat32Array(0.55737704)
+colors = PackedColorArray(1, 0.93333334, 0.5137255, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_shvd2"]
 gradient = SubResource("Gradient_rwjs8")
@@ -95,7 +95,7 @@ _data = {
 material = SubResource("CanvasItemMaterial_jdt08")
 emitting = false
 amount = 3
-texture = ExtResource("1_q2ts7")
+texture = ExtResource("1_2tntr")
 lifetime = 0.4
 one_shot = true
 explosiveness = 0.9

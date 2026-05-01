@@ -11,7 +11,7 @@ particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_hetc1"]
 offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.83137256, 0.17254902, 0.30980393, 1)
+colors = PackedColorArray(0.9019608, 0.27058825, 0.22352941, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_1cf8o"]
 gradient = SubResource("Gradient_hetc1")

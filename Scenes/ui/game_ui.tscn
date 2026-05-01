@@ -37,7 +37,7 @@ horizontal_alignment = 1
 [node name="NotReadyLabel" type="Label" parent="MarginContainer/ReadyUpContainer" unique_id=425791392]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.83137256, 0.17254902, 0.30980393, 1)
+theme_override_colors/font_color = Color(0.9019608, 0.27058825, 0.22352941, 1)
 theme_override_constants/line_spacing = 0
 theme_override_constants/outline_size = 4
 text = "PRESS R TO READY UP"
@@ -96,7 +96,7 @@ mouse_filter = 2
 texture = ExtResource("3_pfsyy")
 
 [node name="Sprite2D" type="Sprite2D" parent="MarginContainer/HBoxContainer/TextureRect/TextureRect" unique_id=449509777]
-position = Vector2(11, 9)
+position = Vector2(11, 13)
 texture = ExtResource("4_he6ex")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1734976892]
