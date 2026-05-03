@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeResource" format=3 uid="uid://is24l143min2"]
+
+[ext_resource type="Script" uid="uid://bfqcjjdt1in7a" path="res://Resources/upgrade/upgrade_resource.gd" id="1_opaqr"]
+
+[resource]
+script = ExtResource("1_opaqr")
+id = "health_regen_rate"
+display_name = "Increased Health Regen"
+description = "Regeneration rate increased by 10%"
+metadata/_custom_type_script = "uid://bfqcjjdt1in7a"

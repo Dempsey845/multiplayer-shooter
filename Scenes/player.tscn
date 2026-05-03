@@ -223,9 +223,10 @@ replication_config = SubResource("SceneReplicationConfig_cvnsp")
 [node name="HealthComponent" parent="." unique_id=409181970 instance=ExtResource("3_x3wgy")]
 max_health = 5
 
-[node name="PlayerHealthRegen" parent="." unique_id=344382627 node_paths=PackedStringArray("health_component") instance=ExtResource("4_h4iuc")]
+[node name="PlayerHealthRegen" parent="." unique_id=344382627 node_paths=PackedStringArray("health_component", "player_input_synchronizer_component") instance=ExtResource("4_h4iuc")]
 script = ExtResource("5_fd4e3")
 health_component = NodePath("../HealthComponent")
+player_input_synchronizer_component = NodePath("../PlayerInputSynchronizerComponent")
 
 [node name="FireRateTimer" type="Timer" parent="." unique_id=1840304761]
 wait_time = 0.25

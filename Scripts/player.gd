@@ -88,7 +88,8 @@ func get_fire_rate() -> float:
 		"fire_rate"
 	)
 	
-	return BASE_FIRE_RATE * max((1 - (.1 * fire_rate_count)), 0.1)
+	const MIN_FIRE_RATE := 0.05
+	return max(BASE_FIRE_RATE * (1 - (.1 * fire_rate_count)), MIN_FIRE_RATE)
 	
 func get_bullet_damage() -> int:
 	var damage_count := UpgradeManager.get_peer_upgrade_count(
