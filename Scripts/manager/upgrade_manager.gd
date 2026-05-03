@@ -15,10 +15,6 @@ var peer_id_to_upgrade_options: Dictionary[int, Array] = {}
 var peer_id_to_upgrades_acquired: Dictionary[int, Dictionary] = {}
 var outstanding_peers_to_upgrade: Array[int] = []
 
-var peer_id_to_available_upgrades: Dictionary[int, Array] # Array of upgrade ids
-
-var all_upgrade_ids: Array
-
 static func get_peer_upgrade_count(peer_id: int, upgrade_id: String) -> int:
 	if not is_instance_valid(instance):
 		return 0
@@ -38,9 +34,6 @@ func _ready() -> void:
 	instance = self
 	enemy_manager.round_completed.connect(_on_round_completed)
 	
-	for upgrade in available_upgrades:
-		all_upgrade_ids.append(upgrade.id)
-	
 	if is_multiplayer_authority():
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
@@ -53,12 +46,14 @@ func generate_upgrade_options():
 	for connected_peer_id in connected_peer_ids:
 		outstanding_peers_to_upgrade.push_back(connected_peer_id)
 			
-		if not peer_id_to_available_upgrades.has(connected_peer_id):
-			peer_id_to_available_upgrades[connected_peer_id] = all_upgrade_ids
+		var available_upgrades_copy = Array(available_upgrades)
 			
-		var peer_available_upgrades = available_upgrades.filter(func(upgrade):
-			return upgrade.id in peer_id_to_available_upgrades[connected_peer_id]
+		var peer_available_upgrades = available_upgrades_copy.filter(func(upgrade):
+			var upgrade_count := get_peer_upgrade_count(connected_peer_id, upgrade.id)
+			return upgrade_count < upgrade.max_upgrade_count
 		)
+		
+		peer_available_upgrades.shuffle()
 		
 		if peer_available_upgrades.size() == 0:
 			outstanding_peers_to_upgrade.pop_back()
@@ -141,12 +136,6 @@ func handle_upgrade_selected(upgrade_index: int, for_peer_id: int):
 	
 	outstanding_peers_to_upgrade.erase(for_peer_id)
 	
-	if upgrade_count + 1 >= chosen_upgrade.max_upgrade_count:
-		peer_id_to_available_upgrades[for_peer_id].erase(chosen_upgrade.id)
-		print("Peer %s has reached max upgrade for upgrade with id %s" %\
-			[for_peer_id, chosen_upgrade.id])
-			
-			
 	print("Peer %s has selected upgrade with id %s" % [
 		for_peer_id,
 		chosen_upgrade.id

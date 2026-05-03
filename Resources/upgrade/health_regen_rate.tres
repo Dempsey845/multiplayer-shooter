@@ -7,4 +7,5 @@ script = ExtResource("1_opaqr")
 id = "health_regen_rate"
 display_name = "Increased Health Regen"
 description = "Regeneration rate increased by 10%"
+max_upgrade_count = 2
 metadata/_custom_type_script = "uid://bfqcjjdt1in7a"

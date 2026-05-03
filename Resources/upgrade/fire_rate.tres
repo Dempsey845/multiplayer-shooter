@@ -7,4 +7,5 @@ script = ExtResource("1_v6hit")
 id = "fire_rate"
 display_name = "Increased Fire Rate"
 description = "Fire rate increased by 10%"
+max_upgrade_count = 3
 metadata/_custom_type_script = "uid://bfqcjjdt1in7a"
