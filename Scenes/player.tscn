@@ -4,9 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://b3pyqhtri7npx" path="res://Scenes/component/player_input_synchronizer_component.tscn" id="2_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://bumnf0wv01jkk" path="res://Assets/player-medium.png" id="3_6t5aa"]
 [ext_resource type="PackedScene" uid="uid://br3bde3g68sft" path="res://Scenes/component/health_component.tscn" id="3_x3wgy"]
+[ext_resource type="PackedScene" uid="uid://bvc7evlrajld6" path="res://Scenes/player_health_regen.tscn" id="4_h4iuc"]
 [ext_resource type="AudioStream" uid="uid://oq2kq64uatep" path="res://Assets/audio/shot_1.wav" id="4_ukyrk"]
 [ext_resource type="Texture2D" uid="uid://ymk0nqrwmolh" path="res://Assets/rifle.png" id="4_vgqql"]
 [ext_resource type="AudioStream" uid="uid://gnenfl0ue04t" path="res://Assets/audio/shot_2.wav" id="5_7dp3o"]
+[ext_resource type="Script" uid="uid://cfxl75bo3y5t3" path="res://Scripts/player_health_regen.gd" id="5_fd4e3"]
 [ext_resource type="PackedScene" uid="uid://cqnogt013j7jx" path="res://Scenes/component/hurtbox_component.tscn" id="6_3smsa"]
 [ext_resource type="AudioStream" uid="uid://cxxmlw6vkyw30" path="res://Assets/audio/shot_3.wav" id="6_h4iuc"]
 [ext_resource type="AudioStream" uid="uid://b08ac2ufy4q8x" path="res://Assets/audio/shot_4.wav" id="7_fd4e3"]
@@ -220,6 +222,10 @@ replication_config = SubResource("SceneReplicationConfig_cvnsp")
 
 [node name="HealthComponent" parent="." unique_id=409181970 instance=ExtResource("3_x3wgy")]
 max_health = 5
+
+[node name="PlayerHealthRegen" parent="." unique_id=344382627 node_paths=PackedStringArray("health_component") instance=ExtResource("4_h4iuc")]
+script = ExtResource("5_fd4e3")
+health_component = NodePath("../HealthComponent")
 
 [node name="FireRateTimer" type="Timer" parent="." unique_id=1840304761]
 wait_time = 0.25

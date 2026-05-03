@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvc7evlrajld6"]
+
+[node name="PlayerHealthRegen" type="Node" unique_id=344382627]
+
+[node name="Timer" type="Timer" parent="." unique_id=1020015141]
+wait_time = 5.0
