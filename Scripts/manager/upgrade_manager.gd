@@ -52,28 +52,19 @@ func generate_upgrade_options():
 	
 	for connected_peer_id in connected_peer_ids:
 		outstanding_peers_to_upgrade.push_back(connected_peer_id)
-				
+			
 		if not peer_id_to_available_upgrades.has(connected_peer_id):
 			peer_id_to_available_upgrades[connected_peer_id] = all_upgrade_ids
 			
-		var available_upgrades_copy = available_upgrades.filter(func(upgrade):
+		var peer_available_upgrades = available_upgrades.filter(func(upgrade):
 			return upgrade.id in peer_id_to_available_upgrades[connected_peer_id]
 		)
 		
-		if available_upgrades_copy.size() == 0:
+		if peer_available_upgrades.size() == 0:
 			outstanding_peers_to_upgrade.pop_back()
-			return
+			continue
 			
-		
-		var upgrades_left = available_upgrades_copy.filter(func(upgrade):
-			return upgrade.id in peer_id_to_available_upgrades[connected_peer_id]
-		)
-		
-		if upgrades_left.size() == 0:
-			outstanding_peers_to_upgrade.pop_back()
-			return
-		
-		var chosen_upgrades := upgrades_left.slice(0, 3)
+		var chosen_upgrades := peer_available_upgrades.slice(0, 3)
 		
 		peer_id_to_upgrade_options[connected_peer_id] = chosen_upgrades
 		
@@ -97,6 +88,8 @@ func generate_upgrade_options():
 			
 		if connected_peer_id != MultiplayerPeer.TARGET_PEER_SERVER:
 			set_upgrade_options.rpc_id(connected_peer_id, selected_upgrades)
+
+	check_upgrade_complete()
 
 func create_upgrade_option_nodes(upgrade_resources: Array[UpgradeResource]) -> Array[UpgradeOption]:
 	var result: Array[UpgradeOption] = []
@@ -148,11 +141,12 @@ func handle_upgrade_selected(upgrade_index: int, for_peer_id: int):
 	
 	outstanding_peers_to_upgrade.erase(for_peer_id)
 	
-	# Remove any upgrades that are at max
-	for upgrade in available_upgrades:
-		if upgrade_count >= upgrade.max_upgrade_count:
-			peer_id_to_available_upgrades[for_peer_id].erase(upgrade.id)
-	
+	if upgrade_count + 1 >= chosen_upgrade.max_upgrade_count:
+		peer_id_to_available_upgrades[for_peer_id].erase(chosen_upgrade.id)
+		print("Peer %s has reached max upgrade for upgrade with id %s" %\
+			[for_peer_id, chosen_upgrade.id])
+			
+			
 	print("Peer %s has selected upgrade with id %s" % [
 		for_peer_id,
 		chosen_upgrade.id
