@@ -15,6 +15,10 @@ var peer_id_to_upgrade_options: Dictionary[int, Array] = {}
 var peer_id_to_upgrades_acquired: Dictionary[int, Dictionary] = {}
 var outstanding_peers_to_upgrade: Array[int] = []
 
+var peer_id_to_available_upgrades: Dictionary[int, Array] # Array of upgrade ids
+
+var all_upgrade_ids: Array
+
 static func get_peer_upgrade_count(peer_id: int, upgrade_id: String) -> int:
 	if not is_instance_valid(instance):
 		return 0
@@ -34,6 +38,9 @@ func _ready() -> void:
 	instance = self
 	enemy_manager.round_completed.connect(_on_round_completed)
 	
+	for upgrade in available_upgrades:
+		all_upgrade_ids.append(upgrade.id)
+	
 	if is_multiplayer_authority():
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
@@ -44,12 +51,29 @@ func generate_upgrade_options():
 	connected_peer_ids.append(MultiplayerPeer.TARGET_PEER_SERVER)
 	
 	for connected_peer_id in connected_peer_ids:
-		outstanding_peers_to_upgrade.append(connected_peer_id)
+		outstanding_peers_to_upgrade.push_back(connected_peer_id)
+				
+		if not peer_id_to_available_upgrades.has(connected_peer_id):
+			peer_id_to_available_upgrades[connected_peer_id] = all_upgrade_ids
+			
+		var available_upgrades_copy = available_upgrades.filter(func(upgrade):
+			return upgrade.id in peer_id_to_available_upgrades[connected_peer_id]
+		)
 		
-		var available_upgrades_copy = Array(available_upgrades)
-		available_upgrades_copy.shuffle()
+		if available_upgrades_copy.size() == 0:
+			outstanding_peers_to_upgrade.pop_back()
+			return
+			
 		
-		var chosen_upgrades := available_upgrades_copy.slice(0, 3)
+		var upgrades_left = available_upgrades_copy.filter(func(upgrade):
+			return upgrade.id in peer_id_to_available_upgrades[connected_peer_id]
+		)
+		
+		if upgrades_left.size() == 0:
+			outstanding_peers_to_upgrade.pop_back()
+			return
+		
+		var chosen_upgrades := upgrades_left.slice(0, 3)
 		
 		peer_id_to_upgrade_options[connected_peer_id] = chosen_upgrades
 		
@@ -123,6 +147,11 @@ func handle_upgrade_selected(upgrade_index: int, for_peer_id: int):
 	upgrade_dictionary[chosen_upgrade.id] = upgrade_count + 1
 	
 	outstanding_peers_to_upgrade.erase(for_peer_id)
+	
+	# Remove any upgrades that are at max
+	for upgrade in available_upgrades:
+		if upgrade_count >= upgrade.max_upgrade_count:
+			peer_id_to_available_upgrades[for_peer_id].erase(upgrade.id)
 	
 	print("Peer %s has selected upgrade with id %s" % [
 		for_peer_id,
