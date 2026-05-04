@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dlsyqkxi5r316" path="res://Assets/audio/hit_3.wav" id="5_m4x7e"]
 [ext_resource type="Shader" uid="uid://bsmnr0c4pl83b" path="res://Shaders/hit_flash.gdshader" id="6_auwsv"]
 [ext_resource type="AudioStream" uid="uid://bb76qf8l1tky8" path="res://Assets/audio/hit_4.wav" id="6_vt4ob"]
+[ext_resource type="Script" uid="uid://b8rh28r20awam" path="res://Scripts/enemy_shoot_agent.gd" id="12_ta2yt"]
 
 [sub_resource type="Animation" id="Animation_8uf12"]
 length = 0.001
@@ -93,7 +94,7 @@ stream_3/stream = ExtResource("6_vt4ob")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0830c"]
 size = Vector2(16, 24)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tk7xo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ta2yt"]
 resource_local_to_scene = true
 shader = ExtResource("6_auwsv")
 shader_parameter/percent = 0.0
@@ -109,6 +110,7 @@ collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_1f0kj")
+attack_type = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1101380936]
 libraries/ = SubResource("AnimationLibrary_8uf12")
@@ -124,6 +126,10 @@ one_shot = true
 
 [node name="ChargeAttackTimer" type="Timer" parent="." unique_id=303918531]
 wait_time = 0.5
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=965094625]
+wait_time = 0.2
 one_shot = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1804752671]
@@ -152,11 +158,18 @@ texture = ExtResource("4_ghaa6")
 [node name="Visuals" type="Node2D" parent="." unique_id=739521836]
 
 [node name="HitFlashSpriteComponent" parent="Visuals" unique_id=867602081 node_paths=PackedStringArray("health_component") instance=ExtResource("5_1dp5w")]
-material = SubResource("ShaderMaterial_tk7xo")
+material = SubResource("ShaderMaterial_ta2yt")
 texture = ExtResource("1_hghv2")
 centered = false
 offset = Vector2(-8, -23)
 health_component = NodePath("../../HealthComponent")
+
+[node name="EnemyShootAgent" type="Node2D" parent="Visuals" unique_id=1850762667 node_paths=PackedStringArray("enemy")]
+script = ExtResource("12_ta2yt")
+enemy = NodePath("../..")
+
+[node name="FirePoint" type="Marker2D" parent="Visuals/EnemyShootAgent" unique_id=238227307]
+position = Vector2(3, -10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1095723407]
 position = Vector2(0, -4)

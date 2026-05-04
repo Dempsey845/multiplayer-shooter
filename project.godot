@@ -89,6 +89,7 @@ lobby_ready={
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="PlayerActivation"
 2d_physics/layer_9="Bullet"
+2d_physics/layer_10="EnemyProjectile"
 
 [physics]
 

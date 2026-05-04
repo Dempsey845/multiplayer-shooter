@@ -1,6 +1,17 @@
+class_name Enemy
 extends CharacterBody2D
 
-const ATTACK_SPEED := 400.0
+signal attack_shot
+
+const DASH_ATTACK_SPEED := 400.0
+
+enum AttackType {
+	ChargeAndDash,
+	ChargeAndShoot
+}
+
+@export var attack_type: AttackType
+@export var attack_count: int = 3
 
 @onready var target_timer: Timer = $TargetTimer
 @onready var health_component: HealthComponent = $HealthComponent
@@ -10,6 +21,7 @@ const ATTACK_SPEED := 400.0
 @onready var charge_attack_timer: Timer = $ChargeAttackTimer
 @onready var hitbox_collision_shape: CollisionShape2D = %HitboxCollisionShape
 @onready var alert_sprite: Sprite2D = $AlertSprite
+@onready var attack_timer: Timer = $AttackTimer
 
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -25,6 +37,7 @@ var state_machine: CallableStateMachine = CallableStateMachine.new()
 var default_collision_mask: int
 var default_collision_layer: int
 var alert_tween: Tween
+var current_attack_count: int
 
 var current_state: String:
 	get:
@@ -50,11 +63,21 @@ func _ready() -> void:
 		health_component.died.connect(_on_died)
 		state_machine.set_initial_state(state_spawn)
 		hurtbox_component.hit.connect(_on_hurtbox_hit)
+		attack_timer.timeout.connect(_on_attack_timer_timeout)
 	
 func _process(_delta: float) -> void:
 	state_machine.update()
 	if is_multiplayer_authority():
 		move_and_slide()
+	
+func get_attack_distance() -> float:
+	match attack_type:
+		AttackType.ChargeAndDash:
+			return 150.0
+		AttackType.ChargeAndShoot:
+			return 250.0
+			
+	return 50.0
 	
 func enter_state_spawn():
 	var tween := create_tween()
@@ -86,7 +109,7 @@ func state_normal():
 		
 		var distance_to_target = global_position.distance_to(target_position) 
 		var can_attack := attack_cooldown_timer.is_stopped() or distance_to_target < 16
-		if can_attack and distance_to_target < 150:
+		if can_attack and distance_to_target < get_attack_distance():
 			state_machine.change_state(state_charge_attack)
 		
 	flip()
@@ -99,7 +122,9 @@ func enter_state_charge_attack():
 		acquire_target()
 		charge_attack_timer.start()
 		
-	animation_player.play("start_charge")
+	match attack_type:
+		AttackType.ChargeAndDash:
+			animation_player.play("start_charge")
 		
 	if alert_tween != null and alert_tween.is_valid():
 		alert_tween.kill()
@@ -131,13 +156,24 @@ func enter_state_attack():
 		collision_mask = 1 << 0
 		collision_layer = 0
 		hitbox_collision_shape.disabled = false
-		velocity = global_position.direction_to(target_position) * ATTACK_SPEED
+		
+		match attack_type:
+			AttackType.ChargeAndDash:
+				velocity = global_position.direction_to(target_position) * DASH_ATTACK_SPEED
+			AttackType.ChargeAndShoot:
+				attack_timer.start()
 
 func state_attack():
 	if is_multiplayer_authority():
-		velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-3 * get_process_delta_time()))
-		if velocity.length() < 25:
-			state_machine.change_state(state_normal)
+		match attack_type:
+			AttackType.ChargeAndDash:
+				velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-3 * get_process_delta_time()))
+				if velocity.length() < 25:
+					state_machine.change_state(state_normal)
+			AttackType.ChargeAndShoot:
+				if attack_timer.is_stopped():
+					attack_shot.emit()
+					attack_timer.start()
 	
 func leave_state_attack():
 	if is_multiplayer_authority():
@@ -150,6 +186,10 @@ func flip():
 	visuals.scale = Vector2.ONE if global_position.x < target_position.x\
 		else Vector2(-1, 1)
 		
+func get_direction_to_target() -> Vector2:
+	acquire_target()
+	return global_position.direction_to(target_position)
+	
 func acquire_target():
 	var players = get_tree().get_nodes_in_group("player")
 	var nearest_player: Player = null
@@ -194,3 +234,10 @@ func _on_died():
 
 func _on_hurtbox_hit():
 	spawn_hit_effects.rpc()
+
+func _on_attack_timer_timeout():
+	current_attack_count += 1
+	if current_attack_count > attack_count:
+		state_machine.change_state(state_normal)
+		current_attack_count = 0
+	

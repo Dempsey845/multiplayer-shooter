@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c4mlnoajfb8qe"]
+
+[ext_resource type="PackedScene" uid="uid://drkduhc11ouid" path="res://Scenes/bullet.tscn" id="1_33pam"]
+
+[node name="EnemyProjectile" unique_id=1923246069 instance=ExtResource("1_33pam")]
+
+[node name="HitboxComponent" parent="." index="2" unique_id=199560687]
+collision_layer = 512

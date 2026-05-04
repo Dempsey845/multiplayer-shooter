@@ -32,7 +32,7 @@ spawn_position = NodePath("../CenterPosition")
 spawn_root = NodePath("../YSortRoot")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=837854794]
-_spawnable_scenes = PackedStringArray("uid://drkduhc11ouid", "uid://1fajpm0wtfms")
+_spawnable_scenes = PackedStringArray("uid://drkduhc11ouid", "uid://1fajpm0wtfms", "uid://c4mlnoajfb8qe")
 spawn_path = NodePath("../YSortRoot")
 
 [node name="GameUI" parent="." unique_id=1449756625 node_paths=PackedStringArray("enemy_manager", "lobby_manager", "upgrade_manager") instance=ExtResource("3_jjvhh")]
