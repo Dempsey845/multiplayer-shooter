@@ -2,10 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cgjcci4lqs37q" path="res://Scripts/enemy_manager.gd" id="1_xf0q5"]
 [ext_resource type="PackedScene" uid="uid://1fajpm0wtfms" path="res://Scenes/enemy.tscn" id="2_ld3fo"]
+[ext_resource type="Script" uid="uid://di38j2t05i83e" path="res://Resources/enemy/enemy_resource.gd" id="3_iadr5"]
+[ext_resource type="Resource" uid="uid://cd4ag501oeu3j" path="res://Resources/enemy/shoot_enemy.tres" id="4_qkjh7"]
+[ext_resource type="Resource" uid="uid://bf2ncoghosktb" path="res://Resources/enemy/charge_enemy.tres" id="5_lc6ll"]
 
 [node name="EnemyManager" type="Node" unique_id=1497527626]
 script = ExtResource("1_xf0q5")
 enemy_scene = ExtResource("2_ld3fo")
+enemy_resources = Array[ExtResource("3_iadr5")]([ExtResource("4_qkjh7"), ExtResource("5_lc6ll")])
 
 [node name="SpawnIntervalTimer" type="Timer" parent="." unique_id=1373351260]
 one_shot = true

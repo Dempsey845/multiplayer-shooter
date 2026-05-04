@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cva8f2jbvbcgv" path="res://Scripts/enemy.gd" id="1_1f0kj"]
 [ext_resource type="PackedScene" uid="uid://br3bde3g68sft" path="res://Scenes/component/health_component.tscn" id="2_afpow"]
-[ext_resource type="Resource" uid="uid://cd4ag501oeu3j" path="res://Resources/enemy/shoot_enemy.tres" id="2_ta2yt"]
 [ext_resource type="AudioStream" uid="uid://cn7h4vdxf4v18" path="res://Assets/audio/hit_1.wav" id="3_56vhr"]
 [ext_resource type="PackedScene" uid="uid://cqnogt013j7jx" path="res://Scenes/component/hurtbox_component.tscn" id="3_287tu"]
 [ext_resource type="Texture2D" uid="uid://ca8wxy6mkqo8b" path="res://Assets/attack_alert.png" id="4_ghaa6"]
@@ -146,7 +145,6 @@ collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_1f0kj")
-enemy_resource = ExtResource("2_ta2yt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1101380936]
 libraries/ = SubResource("AnimationLibrary_8uf12")

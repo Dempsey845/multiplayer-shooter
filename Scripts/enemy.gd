@@ -10,7 +10,6 @@ enum AttackType {
 	ChargeAndShoot
 }
 
-@export var enemy_resource: EnemyResource
 @export var attack_count: int = 3
 
 @onready var enemy_sprite: Sprite2D = %EnemySprite
@@ -29,6 +28,8 @@ enum AttackType {
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var hit_stream_player: AudioStreamPlayer = $HitStreamPlayer
+
+var enemy_resource: EnemyResource
 
 var impact_particles_scene: PackedScene = preload("uid://dp5cvajlkl4uc")
 var ground_particles_scene: PackedScene = preload("uid://clql2p3h4o5np")
@@ -169,6 +170,7 @@ func enter_state_attack():
 			AttackType.ChargeAndDash:
 				velocity = global_position.direction_to(target_position) * DASH_ATTACK_SPEED
 			AttackType.ChargeAndShoot:
+				enemy_sprite.scale = Vector2.ONE
 				attack_timer.start()
 
 func state_attack():
@@ -179,6 +181,7 @@ func state_attack():
 				if velocity.length() < 25:
 					state_machine.change_state(state_normal)
 			AttackType.ChargeAndShoot:
+				flip()
 				if attack_timer.is_stopped():
 					attack_shot.emit()
 					attack_timer.start()

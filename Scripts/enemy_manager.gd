@@ -16,6 +16,7 @@ const MAX_ROUNDS: int = 10
 @export var enemy_spawn_root: Node
 @export var spawn_rect: ReferenceRect
 @export var upgrade_manager: UpgradeManager
+@export var enemy_resources: Array[EnemyResource]
 
 @onready var spawn_interval_timer: Timer = $SpawnIntervalTimer
 @onready var round_timer: Timer = $RoundTimer
@@ -103,8 +104,12 @@ func get_random_spawn_position() -> Vector2:
 	return spawn_rect.global_position + Vector2(x, y)
 	
 func spawn_enemy():
-	var enemy = enemy_scene.instantiate() as Node2D
+	var enemy = enemy_scene.instantiate() as Enemy
 	enemy.global_position = get_random_spawn_position()
+	
+	var enemy_resource = enemy_resources.pick_random()
+	enemy.enemy_resource = enemy_resource
+	
 	enemy_spawn_root.add_child(enemy, true)
 	spawned_enemies += 1
 	
