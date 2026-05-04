@@ -1,7 +1,7 @@
 class_name Bullet
 extends Node2D
 
-const SPEED: int = 600
+@export var speed: int = 600
 
 @onready var life_timer: Timer = $LifeTimer
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
@@ -17,7 +17,7 @@ func _ready() -> void:
 	life_timer.timeout.connect(_on_life_timer_timeout)
 
 func _process(delta: float) -> void:
-	global_position += move_direction * SPEED * delta
+	global_position += move_direction * speed * delta
 
 func start(direction: Vector2):
 	move_direction = direction
