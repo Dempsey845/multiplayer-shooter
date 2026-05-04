@@ -10,8 +10,10 @@ enum AttackType {
 	ChargeAndShoot
 }
 
-@export var attack_type: AttackType
+@export var enemy_resource: EnemyResource
 @export var attack_count: int = 3
+
+@onready var enemy_sprite: Sprite2D = %EnemySprite
 
 @onready var target_timer: Timer = $TargetTimer
 @onready var health_component: HealthComponent = $HealthComponent
@@ -59,6 +61,10 @@ func _ready() -> void:
 	
 	alert_sprite.scale = Vector2.ZERO
 	
+	enemy_sprite.texture = enemy_resource.enemy_texture
+	enemy_sprite.hframes = enemy_resource.h_frame_count
+	enemy_sprite.frame = enemy_resource.start_frame
+
 	if is_multiplayer_authority():
 		health_component.died.connect(_on_died)
 		state_machine.set_initial_state(state_spawn)
@@ -71,7 +77,7 @@ func _process(_delta: float) -> void:
 		move_and_slide()
 	
 func get_attack_distance() -> float:
-	match attack_type:
+	match enemy_resource.attack_type:
 		AttackType.ChargeAndDash:
 			return 150.0
 		AttackType.ChargeAndShoot:
@@ -122,9 +128,11 @@ func enter_state_charge_attack():
 		acquire_target()
 		charge_attack_timer.start()
 		
-	match attack_type:
+	match enemy_resource.attack_type:
 		AttackType.ChargeAndDash:
 			animation_player.play("start_charge")
+		AttackType.ChargeAndShoot:
+			animation_player.play("start_shoot_charge")
 		
 	if alert_tween != null and alert_tween.is_valid():
 		alert_tween.kill()
@@ -157,7 +165,7 @@ func enter_state_attack():
 		collision_layer = 0
 		hitbox_collision_shape.disabled = false
 		
-		match attack_type:
+		match enemy_resource.attack_type:
 			AttackType.ChargeAndDash:
 				velocity = global_position.direction_to(target_position) * DASH_ATTACK_SPEED
 			AttackType.ChargeAndShoot:
@@ -165,7 +173,7 @@ func enter_state_attack():
 
 func state_attack():
 	if is_multiplayer_authority():
-		match attack_type:
+		match enemy_resource.attack_type:
 			AttackType.ChargeAndDash:
 				velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-3 * get_process_delta_time()))
 				if velocity.length() < 25:
@@ -181,6 +189,10 @@ func leave_state_attack():
 		collision_layer = default_collision_layer
 		hitbox_collision_shape.disabled = true
 		attack_cooldown_timer.start()
+	
+	match enemy_resource.attack_type:
+		AttackType.ChargeAndShoot:
+			enemy_sprite.frame = enemy_resource.start_frame
 	
 func flip():
 	visuals.scale = Vector2.ONE if global_position.x < target_position.x\
@@ -226,6 +238,9 @@ func spawn_death_particles():
 	
 	background_node.add_child(death_particles)
 	death_particles.global_position = global_position
+	
+func update_sprite_frame(frame: int):
+	enemy_sprite.frame = frame
 	
 func _on_died():
 	spawn_death_particles.rpc()

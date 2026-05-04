@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://1fajpm0wtfms"]
 
 [ext_resource type="Script" uid="uid://cva8f2jbvbcgv" path="res://Scripts/enemy.gd" id="1_1f0kj"]
-[ext_resource type="Texture2D" uid="uid://ds1v5tn42204m" path="res://Assets/enemy_medium.png" id="1_hghv2"]
 [ext_resource type="PackedScene" uid="uid://br3bde3g68sft" path="res://Scenes/component/health_component.tscn" id="2_afpow"]
+[ext_resource type="Resource" uid="uid://cd4ag501oeu3j" path="res://Resources/enemy/shoot_enemy.tres" id="2_ta2yt"]
 [ext_resource type="AudioStream" uid="uid://cn7h4vdxf4v18" path="res://Assets/audio/hit_1.wav" id="3_56vhr"]
 [ext_resource type="PackedScene" uid="uid://cqnogt013j7jx" path="res://Scenes/component/hurtbox_component.tscn" id="3_287tu"]
 [ext_resource type="Texture2D" uid="uid://ca8wxy6mkqo8b" path="res://Assets/attack_alert.png" id="4_ghaa6"]
@@ -19,7 +19,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/HitFlashSpriteComponent:scale")
+tracks/0/path = NodePath("Visuals/EnemySprite:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -27,6 +27,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ta2yt"]
+resource_name = "end_shoot_charge"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/EnemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
 }
 
 [sub_resource type="Animation" id="Animation_auwsv"]
@@ -37,7 +54,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/HitFlashSpriteComponent:scale")
+tracks/0/path = NodePath("Visuals/EnemySprite:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -54,7 +71,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/HitFlashSpriteComponent:scale")
+tracks/0/path = NodePath("Visuals/EnemySprite:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -64,11 +81,30 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(0.9, 0.5), Vector2(0.8, 0.7), Vector2(1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_m4x7e"]
+resource_name = "start_shoot_charge"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/EnemySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 2, 1, 0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8uf12"]
 _data = {
 &"RESET": SubResource("Animation_8uf12"),
+&"end_shoot_charge": SubResource("Animation_ta2yt"),
 &"run": SubResource("Animation_auwsv"),
-&"start_charge": SubResource("Animation_po0sg")
+&"start_charge": SubResource("Animation_po0sg"),
+&"start_shoot_charge": SubResource("Animation_m4x7e")
 }
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1f0kj"]
@@ -110,7 +146,7 @@ collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_1f0kj")
-attack_type = 1
+enemy_resource = ExtResource("2_ta2yt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1101380936]
 libraries/ = SubResource("AnimationLibrary_8uf12")
@@ -157,9 +193,9 @@ texture = ExtResource("4_ghaa6")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=739521836]
 
-[node name="HitFlashSpriteComponent" parent="Visuals" unique_id=867602081 node_paths=PackedStringArray("health_component") instance=ExtResource("5_1dp5w")]
+[node name="EnemySprite" parent="Visuals" unique_id=867602081 node_paths=PackedStringArray("health_component") instance=ExtResource("5_1dp5w")]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_ta2yt")
-texture = ExtResource("1_hghv2")
 centered = false
 offset = Vector2(-8, -23)
 health_component = NodePath("../../HealthComponent")

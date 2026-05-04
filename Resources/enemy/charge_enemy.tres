@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EnemyResource" format=3 uid="uid://bf2ncoghosktb"]
+
+[ext_resource type="Script" uid="uid://di38j2t05i83e" path="res://Resources/enemy/enemy_resource.gd" id="1_1q2tg"]
+[ext_resource type="Texture2D" uid="uid://ds1v5tn42204m" path="res://Assets/enemy_medium.png" id="1_i21yb"]
+
+[resource]
+script = ExtResource("1_1q2tg")
+enemy_texture = ExtResource("1_i21yb")
+metadata/_custom_type_script = "uid://di38j2t05i83e"

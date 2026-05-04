@@ -13,8 +13,8 @@ func _ready() -> void:
 func shoot_projectile_at_target():
 	var enemy_projectile = enemy_projectile_scene.instantiate() as Bullet
 	enemy_projectile.global_position = fire_point.global_position
-	var direction := enemy.get_direction_to_target()
 	
+	var direction := enemy.get_direction_to_target()
 	var spread_angle = randf_range(-0.2, 0.2) 
 	direction = direction.rotated(spread_angle)
 	

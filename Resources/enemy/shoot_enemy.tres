@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EnemyResource" format=3 uid="uid://cd4ag501oeu3j"]
+
+[ext_resource type="Texture2D" uid="uid://boqvjxmaynmfw" path="res://Assets/enemy-shooter.png" id="1_gen2a"]
+[ext_resource type="Script" uid="uid://di38j2t05i83e" path="res://Resources/enemy/enemy_resource.gd" id="1_xct20"]
+
+[resource]
+script = ExtResource("1_xct20")
+attack_type = 1
+enemy_texture = ExtResource("1_gen2a")
+h_frame_count = 4
+start_frame = 3
+metadata/_custom_type_script = "uid://di38j2t05i83e"
