@@ -3,6 +3,7 @@ extends CanvasLayer
 
 @export var enemy_manager: EnemyManager
 @export var lobby_manager: LobbyManager
+@export var upgrade_manager: UpgradeManager
 
 @onready var round_label: Label = %RoundLabel
 @onready var timer_label: Label = %TimerLabel
@@ -14,6 +15,8 @@ extends CanvasLayer
 @onready var ready_count_label: Label = %ReadyCountLabel
 @onready var ready_up_container: VBoxContainer = %ReadyUpContainer
 @onready var round_info_container: VBoxContainer = %RoundInfoContainer
+
+@onready var players_upgrading_label: Label = $MarginContainer/PlayersUpgradingLabel
 
 func _ready() -> void:
 	enemy_manager.round_changed.connect(_on_round_changed)
@@ -29,6 +32,15 @@ func _ready() -> void:
 	
 	ready_label.visible = false
 	not_ready_label.visible = true
+	
+	players_upgrading_label.visible = false
+	
+	if is_multiplayer_authority():
+		upgrade_manager.upgrades_started.connect(_on_upgrades_started)
+		upgrade_manager.upgrade_selected.connect(_on_upgrade_selected)
+		upgrade_manager.upgrades_completed.connect(_on_upgrades_completed)
+		
+		multiplayer.peer_connected.connect(_on_peer_connected)
 
 func _process(_delta: float) -> void:
 	timer_label.text = str(ceili(enemy_manager.get_round_time_remainding()))
@@ -60,3 +72,32 @@ func _on_lobby_closed():
 
 func _on_peer_ready_states_changed(ready_count: int, total_count: int):
 	ready_count_label.text = "%s/%s READY" % [ready_count, total_count]
+
+@rpc("authority", "call_local", "reliable")
+func update_players_upgrading_label(peer_count: int):
+	players_upgrading_label.visible = true
+	
+	if peer_count == 1:
+		players_upgrading_label.text = "1 PLAYER IS UPGRADING"
+	elif peer_count < 1:
+		players_upgrading_label.visible = false
+	else:
+		players_upgrading_label.text = "%s PLAYERS UPGRADING" % peer_count
+	
+@rpc("authority", "call_local", "reliable")
+func hide_players_upgrading_label():
+	players_upgrading_label.visible = false
+
+func _on_upgrades_started(peer_count: int):
+	update_players_upgrading_label.rpc(peer_count)
+	
+func _on_upgrade_selected(peer_count: int):
+	update_players_upgrading_label.rpc(peer_count)
+
+func _on_upgrades_completed():
+	hide_players_upgrading_label.rpc()
+	
+func _on_peer_connected(peer_id: int):
+	var peers_upgrading := upgrade_manager.outstanding_peers_to_upgrade.size()
+	if peers_upgrading > 0:
+		update_players_upgrading_label.rpc_id(peer_id, peers_upgrading)

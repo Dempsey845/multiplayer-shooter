@@ -2,6 +2,8 @@ class_name UpgradeManager
 extends Node
 
 signal upgrades_completed
+signal upgrades_started(peer_count: int)
+signal upgrade_selected(peer_count: int)
 
 @export var enemy_manager: EnemyManager
 @export var spawn_position: Node2D
@@ -84,6 +86,7 @@ func generate_upgrade_options():
 		if connected_peer_id != MultiplayerPeer.TARGET_PEER_SERVER:
 			set_upgrade_options.rpc_id(connected_peer_id, selected_upgrades)
 
+	upgrades_started.emit(outstanding_peers_to_upgrade.size())
 	check_upgrade_complete()
 
 func create_upgrade_option_nodes(upgrade_resources: Array[UpgradeResource]) -> Array[UpgradeOption]:
@@ -140,6 +143,8 @@ func handle_upgrade_selected(upgrade_index: int, for_peer_id: int):
 		for_peer_id,
 		chosen_upgrade.id
 	])
+	
+	upgrade_selected.emit(outstanding_peers_to_upgrade.size())
 	
 	check_upgrade_complete()
 
