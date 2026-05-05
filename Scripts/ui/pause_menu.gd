@@ -25,6 +25,7 @@ func _ready() -> void:
 	
 	if is_multiplayer_authority():
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+		multiplayer.peer_connected.connect(_on_peer_connected)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -72,6 +73,10 @@ func _on_quit_pressed():
 func _on_peer_disconnected(peer_id: int):
 	if current_paused_peer == peer_id:
 		unpause.rpc()
+		
+func _on_peer_connected(peer_id: int):
+	if current_paused_peer != -1:
+		pause.rpc_id(peer_id, current_paused_peer)
 
 func _on_options_pressed():
 	var options_menu := options_menu_scene.instantiate()
