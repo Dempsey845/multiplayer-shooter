@@ -86,7 +86,7 @@ func begin_round():
 	round_timer.wait_time = ROUND_BASE_TIME + ((round_count - 1) * ROUND_GROWTH)
 	round_timer.start()
 	
-	spawn_interval_timer.wait_time = BASE_ENEMY_SPAWN_TIME + ((round_count -1) * ENEMY_SPAWN_TIME_GROWTH)
+	spawn_interval_timer.wait_time = max(BASE_ENEMY_SPAWN_TIME + ((round_count -1) * ENEMY_SPAWN_TIME_GROWTH), 0.15)
 	spawn_interval_timer.start()
 	
 	synchronize()
