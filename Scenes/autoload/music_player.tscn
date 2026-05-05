@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c3mhwrg6acgme"]
 
-[ext_resource type="AudioStream" uid="uid://cmj1x015bnvdx" path="res://Assets/audio/All Your Organs Get A Laugh.mp3" id="1_41uiu"]
+[ext_resource type="AudioStream" uid="uid://cp1yfw23q2r75" path="res://Assets/audio/background-music.mp3" id="1_41uiu"]
 
 [node name="MusicPlayer" type="Node" unique_id=119764635]
 process_mode = 3
