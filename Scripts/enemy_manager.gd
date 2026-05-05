@@ -10,7 +10,7 @@ const ROUND_GROWTH := 5
 const BASE_ENEMY_SPAWN_TIME := 2.0
 const ENEMY_SPAWN_TIME_GROWTH := -0.15
 
-const MAX_ROUNDS: int = 10
+const MAX_ROUNDS: int = 50
 
 static var instance: EnemyManager
 
@@ -24,6 +24,8 @@ static var instance: EnemyManager
 @onready var round_timer: Timer = $RoundTimer
 
 var enemy_max_health: int = 3
+var charge_duration: float = 0.5
+var attack_cooldown_duration: float = 4.0
 
 var _round_count: int
 var round_count: int:
@@ -112,7 +114,8 @@ func get_random_spawn_position() -> Vector2:
 func spawn_enemy():
 	var enemy = enemy_scene.instantiate() as Enemy
 	enemy.global_position = get_random_spawn_position()
-	
+	enemy.charge_duration = charge_duration
+	enemy.attack_cooldown_duration = attack_cooldown_duration
 	enemy_spawn_root.add_child(enemy, true)
 	
 	enemy.health_component.set_max_health(enemy_max_health)

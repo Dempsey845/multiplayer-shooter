@@ -40,6 +40,8 @@ var default_collision_mask: int
 var default_collision_layer: int
 var alert_tween: Tween
 var current_attack_count: int
+var charge_duration: float = 0.5
+var attack_cooldown_duration: float = 4.0
 
 var attack_type: AttackType
 var start_frame: int
@@ -141,7 +143,7 @@ func leave_state_normal():
 func enter_state_charge_attack():
 	if is_multiplayer_authority():
 		acquire_target()
-		charge_attack_timer.start()
+		charge_attack_timer.start(charge_duration)
 		
 	attack_agent.enter_state_charge_attack()
 		
@@ -187,7 +189,7 @@ func leave_state_attack():
 		collision_mask = default_collision_mask
 		collision_layer = default_collision_layer
 		hitbox_collision_shape.disabled = true
-		attack_cooldown_timer.start()
+		attack_cooldown_timer.start(attack_cooldown_duration)
 	
 	attack_agent.leave_state_attack()
 	
