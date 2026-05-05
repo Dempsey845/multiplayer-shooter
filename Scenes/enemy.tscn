@@ -179,7 +179,7 @@ enemy = NodePath("..")
 replication_config = SubResource("SceneReplicationConfig_1f0kj")
 
 [node name="HealthComponent" parent="." unique_id=409181970 instance=ExtResource("2_afpow")]
-max_health = 2
+max_health = 3
 
 [node name="HitStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1614601054]
 stream = SubResource("AudioStreamRandomizer_hgeoe")

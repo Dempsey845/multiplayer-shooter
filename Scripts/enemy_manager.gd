@@ -23,6 +23,8 @@ static var instance: EnemyManager
 @onready var spawn_interval_timer: Timer = $SpawnIntervalTimer
 @onready var round_timer: Timer = $RoundTimer
 
+var enemy_max_health: int = 3
+
 var _round_count: int
 var round_count: int:
 	get:
@@ -112,6 +114,8 @@ func spawn_enemy():
 	enemy.global_position = get_random_spawn_position()
 	
 	enemy_spawn_root.add_child(enemy, true)
+	
+	enemy.health_component.set_max_health(enemy_max_health)
 	
 	var enemy_resource = enemy_resources.pick_random()
 	enemy.resource_id = enemy_resource.id

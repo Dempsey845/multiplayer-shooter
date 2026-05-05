@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://di38j2t05i83e" path="res://Resources/enemy/enemy_resource.gd" id="3_iadr5"]
 [ext_resource type="Resource" uid="uid://cd4ag501oeu3j" path="res://Resources/enemy/shoot_enemy.tres" id="4_qkjh7"]
 [ext_resource type="Resource" uid="uid://bf2ncoghosktb" path="res://Resources/enemy/charge_enemy.tres" id="5_lc6ll"]
+[ext_resource type="Script" uid="uid://0xsyaahy10y0" path="res://Scripts/difficulty_manager.gd" id="6_qkjh7"]
 
 [node name="EnemyManager" type="Node" unique_id=1497527626]
 script = ExtResource("1_xf0q5")
@@ -16,3 +17,7 @@ one_shot = true
 
 [node name="RoundTimer" type="Timer" parent="." unique_id=1051808691]
 one_shot = true
+
+[node name="DifficultyManager" type="Node" parent="." unique_id=1642280160 node_paths=PackedStringArray("enemy_manager")]
+script = ExtResource("6_qkjh7")
+enemy_manager = NodePath("..")
