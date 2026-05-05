@@ -30,8 +30,6 @@ enum AttackType {
 
 @onready var hit_stream_player: AudioStreamPlayer = $HitStreamPlayer
 
-var enemy_resource: EnemyResource
-
 var impact_particles_scene: PackedScene = preload("uid://dp5cvajlkl4uc")
 var ground_particles_scene: PackedScene = preload("uid://clql2p3h4o5np")
 
@@ -42,6 +40,18 @@ var default_collision_mask: int
 var default_collision_layer: int
 var alert_tween: Tween
 var current_attack_count: int
+
+var attack_type: AttackType
+var start_frame: int
+
+var _resource_id: String
+var resource_id: String:
+	get:
+		return _resource_id
+	set(value):
+		var enemy_resource: EnemyResource = EnemyManager.instance.get_enemy_resource_by_id(value)
+		_assign_enemy_resource(enemy_resource)
+		_resource_id = enemy_resource.id
 
 var current_state: String:
 	get:
@@ -63,20 +73,32 @@ func _ready() -> void:
 	
 	alert_sprite.scale = Vector2.ZERO
 	
-	enemy_sprite.texture = enemy_resource.enemy_texture
-	enemy_sprite.hframes = enemy_resource.h_frame_count
-	enemy_sprite.frame = enemy_resource.start_frame
-
 	if is_multiplayer_authority():
 		health_component.died.connect(_on_died)
 		state_machine.set_initial_state(state_spawn)
 		hurtbox_component.hit.connect(_on_hurtbox_hit)
 		attack_timer.timeout.connect(_on_attack_timer_timeout)
+		
+	(func():
+		_set_enemy_sprite_by_resource(EnemyManager.instance.get_enemy_resource_by_id(resource_id))
+	).call_deferred()
 	
 func _process(_delta: float) -> void:
 	state_machine.update()
 	if is_multiplayer_authority():
 		move_and_slide()
+	
+func _set_enemy_sprite_by_resource(resource: EnemyResource):
+	if is_instance_valid(enemy_sprite):
+		enemy_sprite.texture = resource.enemy_texture
+		enemy_sprite.hframes = resource.h_frame_count
+		enemy_sprite.frame = resource.start_frame
+	
+func _assign_enemy_resource(resource: EnemyResource):
+	_set_enemy_sprite_by_resource(resource)
+	
+	attack_type = resource.attack_type
+	start_frame = resource.start_frame
 	
 func enter_state_spawn():
 	var tween := create_tween()

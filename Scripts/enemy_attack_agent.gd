@@ -4,7 +4,7 @@ extends Node
 @export var enemy: Enemy
 
 func get_attack_distance() -> float:
-	match enemy.enemy_resource.attack_type:
+	match enemy.attack_type:
 		Enemy.AttackType.ChargeAndDash:
 			return 150.0
 		Enemy.AttackType.ChargeAndShoot:
@@ -14,7 +14,7 @@ func get_attack_distance() -> float:
 
 func enter_state_attack():
 	if is_multiplayer_authority():
-		match enemy.enemy_resource.attack_type:
+		match enemy.attack_type:
 			Enemy.AttackType.ChargeAndDash:
 				enemy.velocity = enemy.global_position.direction_to(enemy.target_position) * enemy.DASH_ATTACK_SPEED
 			Enemy.AttackType.ChargeAndShoot:
@@ -22,14 +22,14 @@ func enter_state_attack():
 				enemy.attack_timer.start()
 
 func enter_state_charge_attack():
-	match enemy.enemy_resource.attack_type:
+	match enemy.attack_type:
 		Enemy.AttackType.ChargeAndDash:
 			enemy.animation_player.play("start_charge")
 		Enemy.AttackType.ChargeAndShoot:
 			enemy.animation_player.play("start_shoot_charge")
 
 func state_attack():
-	match enemy.enemy_resource.attack_type:
+	match enemy.attack_type:
 		Enemy.AttackType.ChargeAndDash:
 			enemy.velocity = enemy.velocity.lerp(Vector2.ZERO, 1.0 - exp(-3 * get_process_delta_time()))
 			if enemy.velocity.length() < 25:
@@ -41,6 +41,6 @@ func state_attack():
 				enemy.attack_timer.start()
 
 func leave_state_attack():
-	match enemy.enemy_resource.attack_type:
+	match enemy.attack_type:
 		Enemy.AttackType.ChargeAndShoot:
-			enemy.enemy_sprite.frame = enemy.enemy_resource.start_frame
+			enemy.enemy_sprite.frame = enemy.start_frame

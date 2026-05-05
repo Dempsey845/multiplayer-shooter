@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_xct20")
+id = "shoot_enemy"
 attack_type = 1
 enemy_texture = ExtResource("1_gen2a")
 h_frame_count = 4

@@ -12,6 +12,8 @@ const ENEMY_SPAWN_TIME_GROWTH := -0.15
 
 const MAX_ROUNDS: int = 10
 
+static var instance: EnemyManager
+
 @export var enemy_scene: PackedScene
 @export var enemy_spawn_root: Node
 @export var spawn_rect: ReferenceRect
@@ -38,6 +40,8 @@ func _ready() -> void:
 	upgrade_manager.upgrades_completed.connect(_on_upgrades_completed)
 	
 	GameEvents.enemy_died.connect(_on_enemy_died)
+	
+	instance = self
 	
 func start():
 	if is_multiplayer_authority():
@@ -107,11 +111,17 @@ func spawn_enemy():
 	var enemy = enemy_scene.instantiate() as Enemy
 	enemy.global_position = get_random_spawn_position()
 	
-	var enemy_resource = enemy_resources.pick_random()
-	enemy.enemy_resource = enemy_resource
-	
 	enemy_spawn_root.add_child(enemy, true)
+	
+	var enemy_resource = enemy_resources.pick_random()
+	enemy.resource_id = enemy_resource.id
+	
 	spawned_enemies += 1
+	
+func get_enemy_resource_by_id(id: String) -> EnemyResource:
+	return enemy_resources[enemy_resources.find_custom(func(resource):
+		return resource.id == id
+	)]
 	
 func _on_spawn_interval_timer_timeout():
 	if is_multiplayer_authority():

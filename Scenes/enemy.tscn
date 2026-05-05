@@ -117,6 +117,9 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath(".:current_state")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath(".:resource_id")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hgeoe"]
 random_pitch = 1.0656005
