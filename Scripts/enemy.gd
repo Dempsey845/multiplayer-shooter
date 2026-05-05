@@ -11,6 +11,7 @@ enum AttackType {
 }
 
 @export var attack_count: int = 3
+@export var attack_agent: EnemyAttackAgent
 
 @onready var enemy_sprite: Sprite2D = %EnemySprite
 
@@ -77,15 +78,6 @@ func _process(_delta: float) -> void:
 	if is_multiplayer_authority():
 		move_and_slide()
 	
-func get_attack_distance() -> float:
-	match enemy_resource.attack_type:
-		AttackType.ChargeAndDash:
-			return 150.0
-		AttackType.ChargeAndShoot:
-			return 250.0
-			
-	return 50.0
-	
 func enter_state_spawn():
 	var tween := create_tween()
 	tween.tween_property(visuals, "scale", Vector2.ONE, .4)\
@@ -116,7 +108,7 @@ func state_normal():
 		
 		var distance_to_target = global_position.distance_to(target_position) 
 		var can_attack := attack_cooldown_timer.is_stopped() or distance_to_target < 16
-		if can_attack and distance_to_target < get_attack_distance():
+		if can_attack and distance_to_target < attack_agent.get_attack_distance():
 			state_machine.change_state(state_charge_attack)
 		
 	flip()
@@ -129,11 +121,7 @@ func enter_state_charge_attack():
 		acquire_target()
 		charge_attack_timer.start()
 		
-	match enemy_resource.attack_type:
-		AttackType.ChargeAndDash:
-			animation_player.play("start_charge")
-		AttackType.ChargeAndShoot:
-			animation_player.play("start_shoot_charge")
+	attack_agent.enter_state_charge_attack()
 		
 	if alert_tween != null and alert_tween.is_valid():
 		alert_tween.kill()
@@ -166,25 +154,11 @@ func enter_state_attack():
 		collision_layer = 0
 		hitbox_collision_shape.disabled = false
 		
-		match enemy_resource.attack_type:
-			AttackType.ChargeAndDash:
-				velocity = global_position.direction_to(target_position) * DASH_ATTACK_SPEED
-			AttackType.ChargeAndShoot:
-				enemy_sprite.scale = Vector2.ONE
-				attack_timer.start()
+		attack_agent.enter_state_attack()
 
 func state_attack():
 	if is_multiplayer_authority():
-		match enemy_resource.attack_type:
-			AttackType.ChargeAndDash:
-				velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-3 * get_process_delta_time()))
-				if velocity.length() < 25:
-					state_machine.change_state(state_normal)
-			AttackType.ChargeAndShoot:
-				flip()
-				if attack_timer.is_stopped():
-					attack_shot.emit()
-					attack_timer.start()
+		attack_agent.state_attack()
 	
 func leave_state_attack():
 	if is_multiplayer_authority():
@@ -193,9 +167,7 @@ func leave_state_attack():
 		hitbox_collision_shape.disabled = true
 		attack_cooldown_timer.start()
 	
-	match enemy_resource.attack_type:
-		AttackType.ChargeAndShoot:
-			enemy_sprite.frame = enemy_resource.start_frame
+	attack_agent.leave_state_attack()
 	
 func flip():
 	visuals.scale = Vector2.ONE if global_position.x < target_position.x\
@@ -244,6 +216,9 @@ func spawn_death_particles():
 	
 func update_sprite_frame(frame: int):
 	enemy_sprite.frame = frame
+	
+func emit_attack_shot():
+	attack_shot.emit()
 	
 func _on_died():
 	spawn_death_particles.rpc()
