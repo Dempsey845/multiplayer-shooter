@@ -1,9 +1,23 @@
 [gd_scene format=3 uid="uid://c4mlnoajfb8qe"]
 
 [ext_resource type="PackedScene" uid="uid://drkduhc11ouid" path="res://Scenes/bullet.tscn" id="1_33pam"]
+[ext_resource type="AudioStream" uid="uid://bpw70bqnfjcss" path="res://Assets/audio/plop.wav" id="2_ibebl"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_gjudp"]
+random_pitch = 1.0656005
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("2_ibebl")
 
 [node name="EnemyProjectile" unique_id=1923246069 instance=ExtResource("1_33pam")]
 speed = 300
 
 [node name="HitboxComponent" parent="." index="2" unique_id=199560687]
 collision_layer = 512
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="4" unique_id=1575667470]
+stream = SubResource("AudioStreamRandomizer_gjudp")
+volume_db = -2.0
+autoplay = true
+max_polyphony = 3
+bus = &"sfx"
