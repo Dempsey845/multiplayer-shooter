@@ -16,7 +16,7 @@ func _handle_hit(hitbox_component: HitboxComponent):
 		return
 		
 	hitbox_component.register_hurtbox_hit(self)
-	health_component.damage(hitbox_component.damage)
+	health_component.damage(hitbox_component.damage, hitbox_component.source_peer_id)
 	hit.emit()
 
 func _on_area_entered(other_area: Area2D):

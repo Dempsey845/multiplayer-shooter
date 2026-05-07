@@ -2,6 +2,7 @@ class_name HealthComponent
 extends Node
 
 signal died
+signal died_by(peer_id: int)
 signal damaged
 signal health_changed(current_health: int, max_health: int)
 
@@ -18,11 +19,13 @@ var current_health: int:
 func _ready() -> void:
 	current_health = max_health
 
-func damage(amount: int):
+func damage(amount: int, hit_by: int = -1):
 	current_health = clamp(current_health - amount, 0, max_health)
 	damaged.emit()
 	if current_health == 0:
 		died.emit()
+		if hit_by > 0:
+			died_by.emit(hit_by)
 
 func heal(amount: int):
 	current_health = clamp(current_health + amount, 0, max_health)

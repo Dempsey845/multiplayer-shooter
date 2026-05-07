@@ -142,6 +142,7 @@ func _on_round_timer_timeout():
 
 func _on_enemy_died():
 	spawned_enemies -= 1
+	
 	check_round_completed()
 
 func _on_upgrades_completed():

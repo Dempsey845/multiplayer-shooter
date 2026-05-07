@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://tb2mjqbuhy3r"]
+
+[ext_resource type="Script" uid="uid://cxtyn7wo4g0a5" path="res://Scripts/peer_condition_manager.gd" id="1_30560"]
+
+[node name="PeerConditionManager" type="Node" unique_id=314648345]
+script = ExtResource("1_30560")

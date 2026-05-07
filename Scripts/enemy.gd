@@ -77,6 +77,7 @@ func _ready() -> void:
 	
 	if is_multiplayer_authority():
 		health_component.died.connect(_on_died)
+		health_component.died_by.connect(_on_died_by)
 		state_machine.set_initial_state(state_spawn)
 		hurtbox_component.hit.connect(_on_hurtbox_hit)
 		attack_timer.timeout.connect(_on_attack_timer_timeout)
@@ -248,6 +249,9 @@ func _on_died():
 	spawn_death_particles.rpc()
 	GameEvents.emit_enemy_died()
 	queue_free()
+
+func _on_died_by(peer_id: int):
+	GameEvents.emit_enemy_died_by(peer_id)
 
 func _on_hurtbox_hit():
 	spawn_hit_effects.rpc()

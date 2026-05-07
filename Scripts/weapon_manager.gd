@@ -24,7 +24,12 @@ var can_punch := true
 
 func _ready() -> void:
 	hand_hitbox_component.monitorable = false
-	hand_hitbox_component.source_peer_id = player_input_synchronizer_component.get_multiplayer_authority()
+	
+	set_source_peer_id.call_deferred()
+	
+func set_source_peer_id():
+	if is_multiplayer_authority():
+		hand_hitbox_component.source_peer_id = player_input_synchronizer_component.get_multiplayer_authority()
 
 func _process(_delta: float) -> void:
 	if not is_multiplayer_authority():

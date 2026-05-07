@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://b3f7toxed4v2o" path="res://Scenes/ui/pause_menu.tscn" id="4_6bp64"]
 [ext_resource type="PackedScene" uid="uid://tl0pdvk5nhhh" path="res://Scenes/game_camera.tscn" id="4_21xkr"]
 [ext_resource type="PackedScene" uid="uid://dbq8n170bqdbk" path="res://Scenes/manager/upgrade_manager.tscn" id="4_ynf5e"]
+[ext_resource type="PackedScene" uid="uid://tb2mjqbuhy3r" path="res://Scenes/peer_condition_manager.tscn" id="5_jkdf5"]
 [ext_resource type="Texture2D" uid="uid://db6p4txxx71vy" path="res://Assets/clip_mask.png" id="5_kry3j"]
+[ext_resource type="Script" uid="uid://bs4a5dlu4ml88" path="res://Scripts/player_manager.gd" id="6_wsu2k"]
 [ext_resource type="Texture2D" uid="uid://6858c3qyjhl4" path="res://Assets/tiles/ground-tile1.png" id="10_6iyac"]
 [ext_resource type="Texture2D" uid="uid://dkug6sne8eqxe" path="res://Assets/tiles/ground-tile.png" id="10_hptm8"]
 [ext_resource type="Texture2D" uid="uid://vkwm4chs6w18" path="res://Assets/tiles/ground-tile2.png" id="11_fdnlq"]
@@ -61,6 +63,12 @@ upgrade_manager = NodePath("../UpgradeManager")
 enemy_manager = NodePath("../EnemyManager")
 spawn_position = NodePath("../CenterPosition")
 spawn_root = NodePath("../YSortRoot")
+
+[node name="PeerConditionManager" parent="." unique_id=314648345 instance=ExtResource("5_jkdf5")]
+
+[node name="PlayerManager" type="Node" parent="." unique_id=828577296]
+unique_name_in_owner = true
+script = ExtResource("6_wsu2k")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=837854794]
 _spawnable_scenes = PackedStringArray("uid://drkduhc11ouid", "uid://1fajpm0wtfms", "uid://c4mlnoajfb8qe")
