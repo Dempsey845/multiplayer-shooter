@@ -12,7 +12,6 @@ func register_hurtbox_hit(hurtbox_component: HurtboxComponent):
 
 func check_area_for_hurtbox():
 	var overlapping_areas := get_overlapping_areas()
-	print(overlapping_areas)
 	if overlapping_areas.size() > 0:
 		for area in overlapping_areas:
 			if area is HurtboxComponent:

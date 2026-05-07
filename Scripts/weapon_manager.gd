@@ -7,7 +7,8 @@ extends Node
 @onready var weapon_animation_player: AnimationPlayer = %WeaponAnimationPlayer
 @onready var player_input_synchronizer_component: PlayerInputSynchronizerComponent = %PlayerInputSynchronizerComponent
 @onready var fire_rate_timer: Timer = %FireRateTimer
-@onready var weapon_stream_player: AudioStreamPlayer = %WeaponStreamPlayer
+@onready var gun_stream_player: AudioStreamPlayer = %GunStreamPlayer
+@onready var punch_stream_player: AudioStreamPlayer = %PunchStreamPlayer
 @onready var barrel_position: Marker2D = %BarrelPosition
 @onready var punch_cooldown_timer: Timer = %PunchCooldownTimer
 @onready var hand_point: Marker2D = %HandPoint
@@ -101,7 +102,7 @@ func play_fire_effects():
 	if player_input_synchronizer_component.is_multiplayer_authority():
 		GameCamera.shake(1.0)
 	
-	weapon_stream_player.play()
+	gun_stream_player.play()
 
 @rpc("authority", "call_local", "unreliable")
 func play_punch_effects():
@@ -112,7 +113,7 @@ func play_punch_effects():
 	if player_input_synchronizer_component.is_multiplayer_authority():
 		GameCamera.shake(0.5)
 	
-	weapon_stream_player.play()
+	punch_stream_player.play()
 
 
 func attack():
