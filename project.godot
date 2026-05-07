@@ -88,8 +88,11 @@ lobby_ready={
 2d_physics/layer_2="EnemyCharacter"
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="PlayerActivation"
+2d_physics/layer_5="EnemyHurtbox"
+2d_physics/layer_6="UpgradeOptionHurtbox"
 2d_physics/layer_9="Bullet"
 2d_physics/layer_10="EnemyProjectile"
+2d_physics/layer_11="Hand"
 
 [physics]
 

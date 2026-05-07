@@ -189,10 +189,13 @@ bus = &"sfx"
 
 [node name="HurtboxComponent" parent="." unique_id=938294137 node_paths=PackedStringArray("health_component") instance=ExtResource("3_287tu")]
 position = Vector2(0, -12)
+collision_layer = 16
+collision_mask = 1280
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtboxComponent" unique_id=496151005]
 shape = SubResource("RectangleShape2D_0830c")
+debug_color = Color(0.920786, 5.6698023e-05, 0.69547755, 0.41960785)
 
 [node name="AlertSprite" type="Sprite2D" parent="." unique_id=39599386]
 position = Vector2(0, -30)

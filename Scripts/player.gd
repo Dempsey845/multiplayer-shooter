@@ -4,25 +4,18 @@ extends CharacterBody2D
 signal died
 
 const BASE_MOVEMENT_SPEED: float = 100.0
-const BASE_FIRE_RATE: float = 0.25
-const BASE_BULLET_DAMAGE: int = 1
 
 @onready var player_input_synchronizer_component: PlayerInputSynchronizerComponent = $PlayerInputSynchronizerComponent
 @onready var weapon_root: Node2D = %WeaponRoot
-@onready var fire_rate_timer: Timer = $FireRateTimer
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var visuals: Node2D = $Visuals
-@onready var weapon_animation_player: AnimationPlayer = $WeaponAnimationPlayer
-@onready var barrel_position: Marker2D = %BarrelPosition
 @onready var display_name_label: Label = $DisplayNameLabel
 @onready var activation_area_collision_shape: CollisionShape2D = %ActivationAreaCollisionShape
 @onready var movement_animation_player: AnimationPlayer = $MovementAnimationPlayer
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
-@onready var weapon_stream_player: AudioStreamPlayer = $WeaponStreamPlayer
 @onready var hit_stream_player: AudioStreamPlayer = $HitStreamPlayer
+@onready var weapon_manager: WeaponManager = $WeaponManager
 
-var bullet_scene: PackedScene = preload("uid://drkduhc11ouid")
-var muzzle_flash_scene: PackedScene = preload("uid://b6xpqkeu8aqs8")
 var ground_particles_scene: PackedScene = preload("uid://b55myea8a74s2")
 
 var input_multiplayer_authority: int
@@ -63,9 +56,6 @@ func _process(delta: float) -> void:
 		velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
 		
 		move_and_slide()
-		
-		if player_input_synchronizer_component.is_attack_pressed:
-			try_fire()
 	
 	if is_equal_approx(movement_vector.length_squared(), 0):
 		movement_animation_player.play("RESET")
@@ -82,22 +72,6 @@ func get_movement_speed() -> float:
 	
 	return BASE_MOVEMENT_SPEED * speed_modifier
 	
-func get_fire_rate() -> float:
-	var fire_rate_count := UpgradeManager.get_peer_upgrade_count(
-		player_input_synchronizer_component.get_multiplayer_authority(),
-		"fire_rate"
-	)
-	
-	const MIN_FIRE_RATE := 0.05
-	return max(BASE_FIRE_RATE * (1 - (.1 * fire_rate_count)), MIN_FIRE_RATE)
-	
-func get_bullet_damage() -> int:
-	var damage_count := UpgradeManager.get_peer_upgrade_count(
-		player_input_synchronizer_component.get_multiplayer_authority(),
-		"damage"
-	)
-	
-	return BASE_BULLET_DAMAGE + damage_count
 	
 @rpc("authority", "call_local")
 func play_hit_effects():
@@ -133,39 +107,6 @@ func update_aim_position():
 	visuals.scale = Vector2.ONE if aim_vector.x >= 0 else Vector2(-1, 1)
 	weapon_root.look_at(aim_position)
 	
-func try_fire():
-	if not fire_rate_timer.is_stopped():
-		return
-	
-	var bullet = bullet_scene.instantiate() as Bullet
-	bullet.damage = get_bullet_damage()
-	bullet.source_peer_id = player_input_synchronizer_component.get_multiplayer_authority()
-	bullet.global_position = barrel_position.global_position
-	bullet.start(player_input_synchronizer_component.aim_vector)
-	get_parent().add_child(bullet, true)
-	
-	fire_rate_timer.wait_time = get_fire_rate()
-	fire_rate_timer.start()
-	
-	play_fire_effects.rpc()
-	
-
-@rpc("authority", "call_local", "unreliable")
-func play_fire_effects():
-	if weapon_animation_player.is_playing():
-		weapon_animation_player.stop()
-	weapon_animation_player.play("fire")
-	
-	var muzzle_flash: Node2D = muzzle_flash_scene.instantiate()
-	muzzle_flash.global_position = barrel_position.global_position
-	muzzle_flash.rotation = barrel_position.global_rotation
-	get_parent().add_child(muzzle_flash)
-	
-	if player_input_synchronizer_component.is_multiplayer_authority():
-		GameCamera.shake(1.0)
-	
-	weapon_stream_player.play()
-
 func kill():
 	if not is_multiplayer_authority():
 		push_error("Cannot call kill on non-server client.")

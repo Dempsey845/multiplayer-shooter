@@ -265,6 +265,8 @@ autowrap_mode = 2
 
 [node name="HurtboxComponent" parent="." unique_id=938294137 node_paths=PackedStringArray("health_component") instance=ExtResource("2_ynofy")]
 position = Vector2(0, -16)
+collision_layer = 32
+collision_mask = 1280
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1929488653]
