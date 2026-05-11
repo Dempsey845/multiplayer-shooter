@@ -139,7 +139,6 @@ wait_time = 0.25
 one_shot = true
 
 [node name="ThrowBananaTimer" type="Timer" parent="." unique_id=103415250]
-wait_time = 0.5
 one_shot = true
 
 [node name="GunStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=462923913]
@@ -184,6 +183,7 @@ position = Vector2(18, -1)
 
 [node name="HandSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=1786120201]
 unique_name_in_owner = true
+visible = false
 position = Vector2(8, -2)
 rotation = 1.5707964
 texture = ExtResource("11_qhus2")
@@ -195,14 +195,12 @@ position = Vector2(-3.059797e-07, -7)
 
 [node name="BananaSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=1465226294]
 unique_name_in_owner = true
-visible = false
 position = Vector2(7, -6)
 rotation = 0.5907588
 texture = ExtResource("12_rogsw")
 
-[node name="Sprite2D" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot/BananaSprite" unique_id=969627312]
-position = Vector2(2.5014915, 1.9345627)
-rotation = -0.5907588
+[node name="BackHandSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=969627312]
+position = Vector2(7.999999, -3.000002)
 texture = ExtResource("13_rogsw")
 
 [node name="HandHitboxComponent" type="Area2D" parent="." unique_id=1545492266]

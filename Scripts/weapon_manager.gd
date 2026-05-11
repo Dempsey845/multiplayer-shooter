@@ -122,8 +122,9 @@ func try_throw_banana():
 	banana.start(player_input_synchronizer_component.aim_vector)
 	player.get_parent().add_child(banana, true)
 	
-	throw_banana_timer.wait_time = get_fire_rate()
 	throw_banana_timer.start()
+	
+	play_throw_banana_effects.rpc()
 	
 
 func get_fire_rate() -> float:
@@ -174,6 +175,29 @@ func play_fire_effects():
 		GameCamera.shake(1.0)
 	
 	gun_stream_player.play()
+
+@rpc("authority", "call_local", "unreliable")
+func play_throw_banana_effects():
+	if weapon_animation_player.is_playing():
+		weapon_animation_player.stop()
+	weapon_animation_player.play("attack")
+	
+	var tween := create_tween()
+
+	tween.tween_property(
+		banana_sprite,
+		"scale",
+		Vector2.ZERO,
+		0.2,
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+
+	tween.tween_property(
+		banana_sprite,
+		"scale",
+		Vector2.ONE,
+		0.8
+	).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+
 
 @rpc("authority", "call_local", "unreliable")
 func play_punch_effects():
