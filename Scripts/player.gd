@@ -6,7 +6,6 @@ signal died
 const BASE_MOVEMENT_SPEED: float = 100.0
 
 @onready var player_input_synchronizer_component: PlayerInputSynchronizerComponent = $PlayerInputSynchronizerComponent
-@onready var weapon_root: Node2D = %WeaponRoot
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var visuals: Node2D = $Visuals
 @onready var display_name_label: Label = $DisplayNameLabel
@@ -14,7 +13,7 @@ const BASE_MOVEMENT_SPEED: float = 100.0
 @onready var movement_animation_player: AnimationPlayer = $MovementAnimationPlayer
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 @onready var hit_stream_player: AudioStreamPlayer = $HitStreamPlayer
-@onready var weapon_manager: WeaponManager = $WeaponManager
+@onready var weapon_manager: WeaponManager = %WeaponManager
 
 var ground_particles_scene: PackedScene = preload("uid://b55myea8a74s2")
 
@@ -41,9 +40,9 @@ func _ready() -> void:
 			health_component.current_health = 1
 		health_component.died.connect(_on_died)
 		hurtbox_component.hit.connect(_on_hit)
-
+		
 func _process(delta: float) -> void:
-	update_aim_position()
+	flip_visuals()
 	
 	var movement_vector := player_input_synchronizer_component.movement_vector
 	
@@ -103,12 +102,9 @@ func unlock_gun():
 	if is_multiplayer_authority():
 		weapon_manager.current_weapon = WeaponManager.Weapon.Gun
 	
-func update_aim_position():
+func flip_visuals():
 	var aim_vector = player_input_synchronizer_component.aim_vector
-	var aim_position = weapon_root.global_position + aim_vector
-	
 	visuals.scale = Vector2.ONE if aim_vector.x >= 0 else Vector2(-1, 1)
-	weapon_root.look_at(aim_position)
 	
 func kill():
 	if not is_multiplayer_authority():

@@ -7,14 +7,17 @@ enum Weapon
 	Gun
 }
 
-@export var hand_hitbox_component: HitboxComponent
 @export var player: Player
-@export var weapon_animation_player: AnimationPlayer
 @export var player_input_synchronizer_component: PlayerInputSynchronizerComponent
-@export var barrel_position: Marker2D
-@export var hand_point: Marker2D
-@export var hand_sprite: Sprite2D
-@export var gun_sprite: Sprite2D
+
+@onready var weapon_root: Node2D = %WeaponRoot
+@onready var hand_hitbox_component: HitboxComponent = %HandHitboxComponent
+@onready var weapon_animation_player: AnimationPlayer = %WeaponAnimationPlayer
+@onready var barrel_position: Marker2D = %BarrelPosition
+@onready var hand_point: Marker2D = %HandPoint
+@onready var hand_sprite: Sprite2D = %HandSprite
+@onready var gun_sprite: Sprite2D = %GunSprite
+@onready var banana_sprite: Sprite2D = %BananaSprite
 
 @onready var fire_rate_timer: Timer = %FireRateTimer
 @onready var gun_stream_player: AudioStreamPlayer = %GunStreamPlayer
@@ -44,19 +47,27 @@ func _ready() -> void:
 	
 	current_weapon = start_weapon
 	
+	player_input_synchronizer_component.set_aim_room(weapon_root)
+	
 func set_source_peer_id():
 	if is_multiplayer_authority():
 		hand_hitbox_component.source_peer_id = player_input_synchronizer_component.get_multiplayer_authority()
 
 func _process(_delta: float) -> void:
-	if not is_multiplayer_authority():
-		return
-		
-	if player_input_synchronizer_component.is_attack_pressed:
-		attack()
-		
-	if not can_punch and player_input_synchronizer_component.is_attack_released:
-		can_punch = true
+	update_aim_position()
+	
+	if is_multiplayer_authority():
+		if player_input_synchronizer_component.is_attack_pressed:
+			attack()
+			
+		if not can_punch and player_input_synchronizer_component.is_attack_released:
+			can_punch = true
+
+func update_aim_position():
+	var aim_vector = player_input_synchronizer_component.aim_vector
+	var aim_position = weapon_root.global_position + aim_vector
+	
+	weapon_root.look_at(aim_position)
 
 func _change_weapon(new_weapon: Weapon):
 	var previous_weapon = current_weapon
