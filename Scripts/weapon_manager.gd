@@ -1,17 +1,25 @@
 class_name WeaponManager
 extends Node
 
+enum Weapon
+{
+	Hand,
+	Gun
+}
+
 @export var hand_hitbox_component: HitboxComponent
 @export var player: Player
+@export var weapon_animation_player: AnimationPlayer
+@export var player_input_synchronizer_component: PlayerInputSynchronizerComponent
+@export var barrel_position: Marker2D
+@export var hand_point: Marker2D
+@export var hand_sprite: Sprite2D
+@export var gun_sprite: Sprite2D
 
-@onready var weapon_animation_player: AnimationPlayer = %WeaponAnimationPlayer
-@onready var player_input_synchronizer_component: PlayerInputSynchronizerComponent = %PlayerInputSynchronizerComponent
 @onready var fire_rate_timer: Timer = %FireRateTimer
 @onready var gun_stream_player: AudioStreamPlayer = %GunStreamPlayer
 @onready var punch_stream_player: AudioStreamPlayer = %PunchStreamPlayer
-@onready var barrel_position: Marker2D = %BarrelPosition
 @onready var punch_cooldown_timer: Timer = %PunchCooldownTimer
-@onready var hand_point: Marker2D = %HandPoint
 
 var bullet_scene: PackedScene = preload("uid://drkduhc11ouid")
 var muzzle_flash_scene: PackedScene = preload("uid://b6xpqkeu8aqs8")
@@ -20,12 +28,21 @@ const BASE_FIRE_RATE: float = 0.25
 const BASE_BULLET_DAMAGE: int = 1
 
 var can_punch := true
+var _current_weapon: Weapon
+var current_weapon: Weapon:
+	get():
+		return _current_weapon
+	set(value):
+		_change_weapon(value)
 
+var start_weapon := Weapon.Hand
 
 func _ready() -> void:
 	hand_hitbox_component.monitorable = false
 	
 	set_source_peer_id.call_deferred()
+	
+	current_weapon = start_weapon
 	
 func set_source_peer_id():
 	if is_multiplayer_authority():
@@ -40,6 +57,22 @@ func _process(_delta: float) -> void:
 		
 	if not can_punch and player_input_synchronizer_component.is_attack_released:
 		can_punch = true
+
+func _change_weapon(new_weapon: Weapon):
+	var previous_weapon = current_weapon
+	_current_weapon = new_weapon
+	
+	match previous_weapon:
+		Weapon.Hand:
+			hand_sprite.visible = false
+		Weapon.Gun:
+			gun_sprite.visible = false
+		
+	match new_weapon:
+		Weapon.Hand:
+			hand_sprite.visible = true
+		Weapon.Gun:
+			gun_sprite.visible = true
 
 func try_punch():
 	if not punch_cooldown_timer.is_stopped() or not can_punch:
@@ -122,4 +155,8 @@ func play_punch_effects():
 
 
 func attack():
-	try_punch()
+	match current_weapon:
+		Weapon.Hand:
+			try_punch()
+		Weapon.Gun:
+			try_fire()

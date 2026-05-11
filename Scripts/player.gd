@@ -72,7 +72,6 @@ func get_movement_speed() -> float:
 	
 	return BASE_MOVEMENT_SPEED * speed_modifier
 	
-	
 @rpc("authority", "call_local")
 func play_hit_effects():
 	if player_input_synchronizer_component.is_multiplayer_authority():
@@ -99,6 +98,10 @@ func play_hit_effects():
 	
 func set_display_name(new_display_name: String):
 	self.display_name = new_display_name
+	
+func unlock_gun():
+	if is_multiplayer_authority():
+		weapon_manager.current_weapon = WeaponManager.Weapon.Gun
 	
 func update_aim_position():
 	var aim_vector = player_input_synchronizer_component.aim_vector
