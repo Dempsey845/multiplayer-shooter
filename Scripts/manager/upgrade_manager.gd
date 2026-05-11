@@ -48,13 +48,7 @@ func generate_upgrade_options():
 	for connected_peer_id in connected_peer_ids:
 		outstanding_peers_to_upgrade.push_back(connected_peer_id)
 			
-		var available_upgrades_copy = Array(available_upgrades)
-			
-		var peer_available_upgrades = available_upgrades_copy.filter(func(upgrade):
-			var upgrade_count := get_peer_upgrade_count(connected_peer_id, upgrade.id)
-			return upgrade_count < upgrade.max_upgrade_count
-		)
-		
+		var peer_available_upgrades = get_available_peer_upgrades(connected_peer_id)
 		peer_available_upgrades.shuffle()
 		
 		if peer_available_upgrades.size() == 0:
@@ -88,6 +82,31 @@ func generate_upgrade_options():
 
 	upgrades_started.emit(outstanding_peers_to_upgrade.size())
 	check_upgrade_complete()
+
+func get_available_peer_upgrades(peer_id: int) -> Array[UpgradeResource]:
+	return available_upgrades.filter(func(upgrade):
+		var upgrade_count := get_peer_upgrade_count(peer_id, upgrade.id)
+		var has_peer_met_all_conditions := _has_peer_met_all_conditions(peer_id, upgrade.peer_conditions)
+		
+		return upgrade_count < upgrade.max_upgrade_count and has_peer_met_all_conditions
+	)
+	
+func _has_peer_met_all_conditions(peer_id: int, peer_conditions: Array[PeerConditionManager.PeerCondition]) -> bool:
+	var peer_condition_count := len(peer_conditions)
+	
+	if peer_condition_count == 0:
+		return true
+		
+	var conditions_not_met_count := peer_condition_count
+	for condition in peer_conditions:
+		if not PeerConditionManager.instance.does_peer_have_condition(peer_id, condition):
+			continue
+			
+		conditions_not_met_count -= 1
+		if conditions_not_met_count <= 0:
+			return true
+			
+	return false
 
 func create_upgrade_option_nodes(upgrade_resources: Array[UpgradeResource]) -> Array[UpgradeOption]:
 	var result: Array[UpgradeOption] = []
