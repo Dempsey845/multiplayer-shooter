@@ -19,6 +19,7 @@ enum Weapon
 @onready var hand_sprite: Sprite2D = %HandSprite
 @onready var gun_sprite: Sprite2D = %GunSprite
 @onready var banana_sprite: Sprite2D = %BananaSprite
+@onready var banana_visuals: Node2D = %BananaVisuals
 
 @onready var fire_rate_timer: Timer = %FireRateTimer
 @onready var throw_banana_timer: Timer = $ThrowBananaTimer
@@ -80,7 +81,7 @@ func _change_weapon(new_weapon: Weapon):
 		Weapon.Hand:
 			hand_sprite.visible = false
 		Weapon.Banana:
-			banana_sprite.visible = false
+			banana_visuals.visible = false
 		Weapon.Gun:
 			gun_sprite.visible = false
 		
@@ -88,7 +89,7 @@ func _change_weapon(new_weapon: Weapon):
 		Weapon.Hand:
 			hand_sprite.visible = true
 		Weapon.Banana:
-			banana_sprite.visible = true
+			banana_visuals.visible = true
 		Weapon.Gun:
 			gun_sprite.visible = true
 

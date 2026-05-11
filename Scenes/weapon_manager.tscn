@@ -193,13 +193,16 @@ flip_h = true
 unique_name_in_owner = true
 position = Vector2(-3.059797e-07, -7)
 
-[node name="BananaSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=1465226294]
+[node name="BananaVisuals" type="Node2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=671749405]
+unique_name_in_owner = true
+
+[node name="BananaSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot/BananaVisuals" unique_id=1465226294]
 unique_name_in_owner = true
 position = Vector2(7, -6)
 rotation = 0.5907588
 texture = ExtResource("12_rogsw")
 
-[node name="BackHandSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=969627312]
+[node name="BackHandSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot/BananaVisuals" unique_id=969627312]
 position = Vector2(7.999999, -3.000002)
 texture = ExtResource("13_rogsw")
 
