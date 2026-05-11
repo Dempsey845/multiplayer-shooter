@@ -4,6 +4,7 @@ extends Node
 enum Weapon
 {
 	Hand,
+	Banana,
 	Gun
 }
 
@@ -20,12 +21,14 @@ enum Weapon
 @onready var banana_sprite: Sprite2D = %BananaSprite
 
 @onready var fire_rate_timer: Timer = %FireRateTimer
+@onready var throw_banana_timer: Timer = $ThrowBananaTimer
 @onready var gun_stream_player: AudioStreamPlayer = %GunStreamPlayer
 @onready var punch_stream_player: AudioStreamPlayer = %PunchStreamPlayer
 @onready var punch_cooldown_timer: Timer = %PunchCooldownTimer
 
 var bullet_scene: PackedScene = preload("uid://drkduhc11ouid")
 var muzzle_flash_scene: PackedScene = preload("uid://b6xpqkeu8aqs8")
+var banana_scene: PackedScene = preload("uid://ddnk0hlort2s1")
 
 const BASE_FIRE_RATE: float = 0.25
 const BASE_BULLET_DAMAGE: int = 1
@@ -38,7 +41,7 @@ var current_weapon: Weapon:
 	set(value):
 		_change_weapon(value)
 
-var start_weapon := Weapon.Hand
+var start_weapon := Weapon.Banana
 
 func _ready() -> void:
 	hand_hitbox_component.monitorable = false
@@ -76,12 +79,16 @@ func _change_weapon(new_weapon: Weapon):
 	match previous_weapon:
 		Weapon.Hand:
 			hand_sprite.visible = false
+		Weapon.Banana:
+			banana_sprite.visible = false
 		Weapon.Gun:
 			gun_sprite.visible = false
 		
 	match new_weapon:
 		Weapon.Hand:
 			hand_sprite.visible = true
+		Weapon.Banana:
+			banana_sprite.visible = true
 		Weapon.Gun:
 			gun_sprite.visible = true
 
@@ -103,6 +110,21 @@ func try_punch():
 	
 	await weapon_animation_player.animation_finished
 	hand_hitbox_component.monitorable = false
+
+func try_throw_banana():
+	if not throw_banana_timer.is_stopped():
+		return
+	
+	var banana = banana_scene.instantiate() as Bullet
+	banana.damage = get_damage()
+	banana.source_peer_id = player_input_synchronizer_component.get_multiplayer_authority()
+	banana.global_position = barrel_position.global_position
+	banana.start(player_input_synchronizer_component.aim_vector)
+	player.get_parent().add_child(banana, true)
+	
+	throw_banana_timer.wait_time = get_fire_rate()
+	throw_banana_timer.start()
+	
 
 func get_fire_rate() -> float:
 	var fire_rate_count := UpgradeManager.get_peer_upgrade_count(
@@ -169,5 +191,7 @@ func attack():
 	match current_weapon:
 		Weapon.Hand:
 			try_punch()
+		Weapon.Banana:
+			try_throw_banana()
 		Weapon.Gun:
 			try_fire()

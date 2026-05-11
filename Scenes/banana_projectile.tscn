@@ -66,6 +66,7 @@ _data = {
 }
 
 [node name="BananaProjectile" unique_id=1923246069 instance=ExtResource("1_gaydx")]
+speed = 300
 
 [node name="Sprite2D" parent="." index="3" unique_id=395185077]
 texture = ExtResource("2_n5d5v")

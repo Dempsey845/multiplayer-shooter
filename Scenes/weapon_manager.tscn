@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bdb8l6ku3c8vt" path="res://Assets/Aseprite/hand.png" id="11_qhus2"]
 [ext_resource type="Texture2D" uid="uid://dfuosibuevgdm" path="res://Assets/upgrade/upgrade_option.png" id="12_rogsw"]
 [ext_resource type="Script" uid="uid://cuflug13llaq3" path="res://Scripts/component/hitbox_component.gd" id="13_qhus2"]
+[ext_resource type="Texture2D" uid="uid://budyaqbcoimk6" path="res://Assets/Aseprite/hand-back.png" id="13_rogsw"]
 
 [sub_resource type="Animation" id="Animation_qhus2"]
 length = 0.001
@@ -137,6 +138,10 @@ unique_name_in_owner = true
 wait_time = 0.25
 one_shot = true
 
+[node name="ThrowBananaTimer" type="Timer" parent="." unique_id=103415250]
+wait_time = 0.5
+one_shot = true
+
 [node name="GunStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=462923913]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_l6n3p")
@@ -190,8 +195,15 @@ position = Vector2(-3.059797e-07, -7)
 
 [node name="BananaSprite" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot" unique_id=1465226294]
 unique_name_in_owner = true
-position = Vector2(9, -2)
+visible = false
+position = Vector2(7, -6)
+rotation = 0.5907588
 texture = ExtResource("12_rogsw")
+
+[node name="Sprite2D" type="Sprite2D" parent="WeaponRoot/WeaponAnimationRoot/BananaSprite" unique_id=969627312]
+position = Vector2(2.5014915, 1.9345627)
+rotation = -0.5907588
+texture = ExtResource("13_rogsw")
 
 [node name="HandHitboxComponent" type="Area2D" parent="." unique_id=1545492266]
 unique_name_in_owner = true
