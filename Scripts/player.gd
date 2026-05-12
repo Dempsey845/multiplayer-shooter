@@ -98,9 +98,9 @@ func play_hit_effects():
 func set_display_name(new_display_name: String):
 	self.display_name = new_display_name
 	
-func unlock_gun():
+func unlock_weapon(weapon_type: Weapon.Type):
 	if is_multiplayer_authority():
-		weapon_manager.current_weapon_type = Weapon.Type.Gun
+		weapon_manager.current_weapon_type = weapon_type
 	
 func flip_visuals():
 	var aim_vector = player_input_synchronizer_component.aim_vector
