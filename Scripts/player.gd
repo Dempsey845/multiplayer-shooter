@@ -100,7 +100,7 @@ func set_display_name(new_display_name: String):
 	
 func unlock_gun():
 	if is_multiplayer_authority():
-		weapon_manager.current_weapon = WeaponManager.Weapon.Gun
+		weapon_manager.current_weapon_type = Weapon.Type.Gun
 	
 func flip_visuals():
 	var aim_vector = player_input_synchronizer_component.aim_vector

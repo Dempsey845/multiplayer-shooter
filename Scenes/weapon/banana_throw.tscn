@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://o7je7w6hqube"]
+
+[ext_resource type="Script" uid="uid://cpc6gglbgiwof" path="res://Scripts/banana_throw.gd" id="1_3sd2r"]
+[ext_resource type="Texture2D" uid="uid://dfuosibuevgdm" path="res://Assets/upgrade/upgrade_option.png" id="2_eqsjn"]
+[ext_resource type="Texture2D" uid="uid://budyaqbcoimk6" path="res://Assets/Aseprite/hand-back.png" id="3_thvrd"]
+
+[node name="BananaThrow" type="Node2D" unique_id=1740412765]
+script = ExtResource("1_3sd2r")
+
+[node name="ThrowBananaTimer" type="Timer" parent="." unique_id=2041258748]
+one_shot = true
+
+[node name="BananaPosition" type="Marker2D" parent="." unique_id=1922815031]
+unique_name_in_owner = true
+position = Vector2(18, -1)
+
+[node name="BananaVisuals" type="Node2D" parent="." unique_id=325125102]
+unique_name_in_owner = true
+
+[node name="BananaSprite" type="Sprite2D" parent="BananaVisuals" unique_id=208468925]
+unique_name_in_owner = true
+position = Vector2(7, -6)
+rotation = 0.5907588
+texture = ExtResource("2_eqsjn")
+
+[node name="BackHandSprite" type="Sprite2D" parent="BananaVisuals" unique_id=1065226763]
+position = Vector2(7.999999, -3.000002)
+texture = ExtResource("3_thvrd")
