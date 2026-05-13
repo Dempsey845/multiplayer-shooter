@@ -22,9 +22,11 @@ func add_peer_kill(peer_id: int):
 
 	peer_id_to_enemies_killed[peer_id] += 1
 	
-	if peer_id_to_enemies_killed[peer_id] >= 5:
+	print("Player kill count: %s" % peer_id_to_enemies_killed[peer_id])
+	
+	if peer_id_to_enemies_killed[peer_id] >= 20:
 		unlock_weapon_for(peer_id, Weapon.Type.Banana)
-	if peer_id_to_enemies_killed[peer_id] >= 10:
+	if peer_id_to_enemies_killed[peer_id] >= 30:
 		unlock_weapon_for(peer_id, Weapon.Type.Gun)
 
 func has_peer_unlocked_weapon(peer_id: int, weapon_type: Weapon.Type) -> bool:

@@ -27,7 +27,7 @@ func start(direction: Vector2):
 
 func register_collision():
 	hitbox_component.is_hit_handled = true
-	queue_free()
+	queue_free.call_deferred()
 
 func _on_life_timer_timeout():
 	# The server should only queue multiplayer objects (since MultiplayerSpawner handles despawns)

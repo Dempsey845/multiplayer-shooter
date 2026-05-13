@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c3u66dxaapt4t" path="res://Assets/electricity/electricity-line2.png" id="3_ske5y"]
 [ext_resource type="Texture2D" uid="uid://1qh7hdft7nji" path="res://Assets/electricity/electricity-line3.png" id="4_u0yv1"]
 [ext_resource type="Texture2D" uid="uid://b8gfx8m3qtfsx" path="res://Assets/electricity/electricity-line4.png" id="5_4cl1b"]
+[ext_resource type="PackedScene" uid="uid://dllc7jljnwrhk" path="res://Scenes/component/hitbox_component.tscn" id="6_ske5y"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_nqb6j"]
 frames = 4
@@ -16,6 +17,8 @@ frame_2/texture = ExtResource("4_u0yv1")
 frame_2/duration = 1.0
 frame_3/texture = ExtResource("5_4cl1b")
 frame_3/duration = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u0yv1"]
 
 [node name="Electricity" type="Node2D" unique_id=1169239645]
 script = ExtResource("1_07t1r")
@@ -32,3 +35,10 @@ wait_time = 0.07
 
 [node name="PointRemovalTimer" type="Timer" parent="." unique_id=686252504]
 wait_time = 0.07
+
+[node name="HitboxComponent" parent="." unique_id=199560687 instance=ExtResource("6_ske5y")]
+collision_mask = 16
+monitoring = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=2121320679]
+shape = SubResource("CircleShape2D_u0yv1")

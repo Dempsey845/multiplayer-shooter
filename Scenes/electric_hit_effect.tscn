@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://c12qa23obhfma"]
+
+[ext_resource type="Texture2D" uid="uid://ds0nxrkgxkpmc" path="res://Assets/electricity-fx.png" id="1_4wo2x"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0li1u"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id="Gradient_34sxt"]
+offsets = PackedFloat32Array(0.87, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qg5xf"]
+gradient = SubResource("Gradient_34sxt")
+
+[sub_resource type="Curve" id="Curve_b3nqe"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.04867257, 1), 0.0, 0.0, 0, 0, Vector2(0.68584067, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_usrh7"]
+curve = SubResource("Curve_b3nqe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eixqb"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 4.71
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.79999995
+scale_max = 1.1999999
+scale_curve = SubResource("CurveTexture_usrh7")
+color_ramp = SubResource("GradientTexture1D_qg5xf")
+anim_speed_max = 5.0
+anim_offset_max = 1.0
+
+[sub_resource type="Animation" id="Animation_1b0vj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_a235y"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k40kp"]
+_data = {
+&"RESET": SubResource("Animation_1b0vj"),
+&"default": SubResource("Animation_a235y")
+}
+
+[node name="ElectricHitEffect" type="Node2D" unique_id=2080707944]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1155819249]
+material = SubResource("CanvasItemMaterial_0li1u")
+emitting = false
+amount = 4
+texture = ExtResource("1_4wo2x")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_eixqb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=481106092]
+libraries/ = SubResource("AnimationLibrary_k40kp")
+autoplay = &"default"
