@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://s005o7cyva3p"]
+
+[ext_resource type="PackedScene" uid="uid://drkduhc11ouid" path="res://Scenes/bullet.tscn" id="1_c34u7"]
+[ext_resource type="Texture2D" uid="uid://ds0nxrkgxkpmc" path="res://Assets/electricity-fx.png" id="1_qw1ln"]
+[ext_resource type="Texture2D" uid="uid://bry2g3rux4u3o" path="res://Assets/electricity/electric-bullet.png" id="2_vbl1f"]
+[ext_resource type="Script" uid="uid://b5ues1veovyaj" path="res://Scripts/electric_bullet_agent.gd" id="4_inl0p"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vbl1f"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id="Gradient_inl0p"]
+offsets = PackedFloat32Array(0.87, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_krya4"]
+gradient = SubResource("Gradient_inl0p")
+
+[sub_resource type="Curve" id="Curve_rg2dy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.04867257, 1), 0.0, 0.0, 0, 0, Vector2(0.68584067, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_83dyi"]
+curve = SubResource("Curve_rg2dy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_grrqo"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 4.71
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.79999995
+scale_max = 1.1999999
+scale_curve = SubResource("CurveTexture_83dyi")
+color_ramp = SubResource("GradientTexture1D_krya4")
+anim_speed_min = 4.0
+anim_speed_max = 5.0
+anim_offset_max = 1.0
+
+[node name="ElectricityBullet" unique_id=1923246069 instance=ExtResource("1_c34u7")]
+
+[node name="Sprite2D" parent="." index="3" unique_id=395185077]
+texture = ExtResource("2_vbl1f")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." index="4" unique_id=1746504847]
+material = SubResource("CanvasItemMaterial_vbl1f")
+texture = ExtResource("1_qw1ln")
+lifetime = 0.2
+randomness = 0.5
+fixed_fps = 0
+interpolate = false
+process_material = SubResource("ParticleProcessMaterial_grrqo")
+
+[node name="ElectricBulletAgent" type="Node" parent="." index="5" unique_id=350105638]
+script = ExtResource("4_inl0p")

@@ -187,7 +187,7 @@ volume_db = -2.0
 max_polyphony = 3
 bus = &"sfx"
 
-[node name="HurtboxComponent" parent="." unique_id=938294137 node_paths=PackedStringArray("health_component") instance=ExtResource("3_287tu")]
+[node name="HurtboxComponent" parent="." unique_id=938294137 node_paths=PackedStringArray("health_component") groups=["enemy"] instance=ExtResource("3_287tu")]
 position = Vector2(0, -12)
 collision_layer = 16
 collision_mask = 1280

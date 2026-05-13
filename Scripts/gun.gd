@@ -6,7 +6,7 @@ const BASE_FIRE_RATE: float = 0.25
 @onready var gun_stream_player: AudioStreamPlayer = %GunStreamPlayer
 @onready var barrel_position: Marker2D = %BarrelPosition
 
-var bullet_scene: PackedScene = preload("uid://drkduhc11ouid")
+var bullet_scene: PackedScene = preload("uid://s005o7cyva3p")
 var muzzle_flash_scene: PackedScene = preload("uid://b6xpqkeu8aqs8")
 
 func try_fire():

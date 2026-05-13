@@ -1,6 +1,8 @@
 class_name Bullet
 extends Node2D
 
+signal hit_hurtbox(hurtbox_component: HurtboxComponent)
+
 @export var speed: int = 600
 
 @onready var life_timer: Timer = $LifeTimer
@@ -32,6 +34,6 @@ func _on_life_timer_timeout():
 	if is_multiplayer_authority():
 		queue_free()
 
-func _on_hit_hurtbox(_hurtbox_component: HurtboxComponent):
+func _on_hit_hurtbox(hurtbox_component: HurtboxComponent):
+	hit_hurtbox.emit(hurtbox_component)
 	register_collision()
-	

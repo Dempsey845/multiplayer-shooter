@@ -15,7 +15,7 @@ var current_weapon_type: Weapon.Type:
 	set(value):
 		_change_weapon(value)
 
-var start_weapon_type := Weapon.Type.Hand
+var start_weapon_type := Weapon.Type.Gun
 
 @onready var weapons: Dictionary[Weapon.Type, Weapon] =\
 	{

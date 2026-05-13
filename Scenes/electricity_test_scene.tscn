@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://dipyo0iy3bnbv"]
+
+[ext_resource type="PackedScene" uid="uid://cc74sjccipfo7" path="res://Scenes/electricity.tscn" id="1_iq8ql"]
+[ext_resource type="Texture2D" uid="uid://dfuosibuevgdm" path="res://Assets/upgrade/upgrade_option.png" id="2_251ra"]
+
+[node name="ElectricityTestScene" type="Node2D" unique_id=797113453]
+
+[node name="Electricity" parent="." unique_id=1169239645 node_paths=PackedStringArray("start_target") instance=ExtResource("1_iq8ql")]
+start_target = NodePath("../Target")
+
+[node name="Target" type="Sprite2D" parent="." unique_id=2135828543 groups=["target"]]
+position = Vector2(158, 175)
+texture = ExtResource("2_251ra")
+
+[node name="Target2" type="Sprite2D" parent="." unique_id=838671738 groups=["target"]]
+position = Vector2(207, 148)
+texture = ExtResource("2_251ra")
+
+[node name="Target3" type="Sprite2D" parent="." unique_id=1936030880 groups=["target"]]
+position = Vector2(120, 142)
+texture = ExtResource("2_251ra")
+
+[node name="Target4" type="Sprite2D" parent="." unique_id=282076206 groups=["target"]]
+position = Vector2(95, 209)
+texture = ExtResource("2_251ra")
+
+[node name="Target5" type="Sprite2D" parent="." unique_id=1444610909 groups=["target"]]
+position = Vector2(221, 216)
+texture = ExtResource("2_251ra")
+
+[node name="Target6" type="Sprite2D" parent="." unique_id=1165195823 groups=["target"]]
+position = Vector2(172, 124)
+texture = ExtResource("2_251ra")
+
+[node name="Target7" type="Sprite2D" parent="." unique_id=1276682387 groups=["target"]]
+position = Vector2(47, 177)
+texture = ExtResource("2_251ra")
+
+[node name="Target8" type="Sprite2D" parent="." unique_id=1104360170 groups=["target"]]
+position = Vector2(176, 243)
+texture = ExtResource("2_251ra")
+
+[node name="Target9" type="Sprite2D" parent="." unique_id=1432391620 groups=["target"]]
+position = Vector2(260, 172)
+texture = ExtResource("2_251ra")
+
+[node name="Target10" type="Sprite2D" parent="." unique_id=947621978 groups=["target"]]
+position = Vector2(261, 89)
+texture = ExtResource("2_251ra")
+
+[node name="Target13" type="Sprite2D" parent="." unique_id=1475155917 groups=["target"]]
+position = Vector2(345, 91)
+texture = ExtResource("2_251ra")
+
+[node name="Target14" type="Sprite2D" parent="." unique_id=101080560 groups=["target"]]
+position = Vector2(384, 91)
+texture = ExtResource("2_251ra")
+
+[node name="Target15" type="Sprite2D" parent="." unique_id=1410175789 groups=["target"]]
+position = Vector2(421, 91)
+texture = ExtResource("2_251ra")
+
+[node name="Target16" type="Sprite2D" parent="." unique_id=676911685 groups=["target"]]
+position = Vector2(459, 92)
+texture = ExtResource("2_251ra")
+
+[node name="Target17" type="Sprite2D" parent="." unique_id=895402864 groups=["target"]]
+position = Vector2(497, 92)
+texture = ExtResource("2_251ra")
+
+[node name="Target18" type="Sprite2D" parent="." unique_id=725276628 groups=["target"]]
+position = Vector2(473, 131)
+texture = ExtResource("2_251ra")
+
+[node name="Target19" type="Sprite2D" parent="." unique_id=420155204 groups=["target"]]
+position = Vector2(451, 157)
+texture = ExtResource("2_251ra")
+
+[node name="Target20" type="Sprite2D" parent="." unique_id=744077666 groups=["target"]]
+position = Vector2(427, 184)
+texture = ExtResource("2_251ra")
+
+[node name="Target21" type="Sprite2D" parent="." unique_id=71659044 groups=["target"]]
+position = Vector2(393, 212)
+texture = ExtResource("2_251ra")
+
+[node name="Target22" type="Sprite2D" parent="." unique_id=1724699055 groups=["target"]]
+position = Vector2(369, 235)
+texture = ExtResource("2_251ra")
+
+[node name="Target23" type="Sprite2D" parent="." unique_id=1527256603 groups=["target"]]
+position = Vector2(369, 235)
+texture = ExtResource("2_251ra")
+
+[node name="Target11" type="Sprite2D" parent="." unique_id=2099607172 groups=["target"]]
+position = Vector2(174, 72)
+texture = ExtResource("2_251ra")
+
+[node name="Target12" type="Sprite2D" parent="." unique_id=884115873 groups=["target"]]
+position = Vector2(70, 113)
+texture = ExtResource("2_251ra")
