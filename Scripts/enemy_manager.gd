@@ -27,7 +27,7 @@ var enemy_max_health: int = 3
 var charge_duration: float = 0.5
 var attack_cooldown_duration: float = 4.0
 
-var _round_count: int
+var _round_count: int = 5
 var round_count: int:
 	get:
 		return _round_count 

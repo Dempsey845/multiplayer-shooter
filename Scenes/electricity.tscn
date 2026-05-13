@@ -26,3 +26,9 @@ texture_repeat = 2
 width = 16.0
 texture = SubResource("AnimatedTexture_nqb6j")
 texture_mode = 1
+
+[node name="PointCreationTimer" type="Timer" parent="." unique_id=1792397448]
+wait_time = 0.07
+
+[node name="PointRemovalTimer" type="Timer" parent="." unique_id=686252504]
+wait_time = 0.07
