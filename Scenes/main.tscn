@@ -71,7 +71,7 @@ unique_name_in_owner = true
 script = ExtResource("6_wsu2k")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=837854794]
-_spawnable_scenes = PackedStringArray("uid://drkduhc11ouid", "uid://1fajpm0wtfms", "uid://c4mlnoajfb8qe", "uid://ddnk0hlort2s1")
+_spawnable_scenes = PackedStringArray("uid://drkduhc11ouid", "uid://1fajpm0wtfms", "uid://c4mlnoajfb8qe", "uid://ddnk0hlort2s1", "uid://s005o7cyva3p", "uid://cc74sjccipfo7")
 spawn_path = NodePath("../YSortRoot")
 
 [node name="GameUI" parent="." unique_id=1449756625 node_paths=PackedStringArray("enemy_manager", "lobby_manager", "upgrade_manager") instance=ExtResource("3_jjvhh")]
