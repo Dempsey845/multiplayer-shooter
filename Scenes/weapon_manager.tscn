@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bjidjtn1mrva1" path="res://Scripts/weapon_manager.gd" id="1_vsq4w"]
 [ext_resource type="PackedScene" uid="uid://ceapjo2alwlod" path="res://Scenes/weapon/gun.tscn" id="3_6lfn5"]
 [ext_resource type="PackedScene" uid="uid://o7je7w6hqube" path="res://Scenes/weapon/banana_throw.tscn" id="4_dde7e"]
+[ext_resource type="PackedScene" uid="uid://bojd1krja4h4w" path="res://Scenes/weapon/electric_gun.tscn" id="5_51kke"]
 [ext_resource type="PackedScene" uid="uid://b0ql38vne70ar" path="res://Scenes/weapon/punch_hand.tscn" id="5_536iv"]
 
 [sub_resource type="Animation" id="Animation_qhus2"]
@@ -96,4 +97,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="Gun" parent="WeaponRoot/WeaponAnimationRoot" unique_id=1433380266 instance=ExtResource("3_6lfn5")]
+unique_name_in_owner = true
+
+[node name="ElectricGun" parent="WeaponRoot/WeaponAnimationRoot" unique_id=574640591 instance=ExtResource("5_51kke")]
 unique_name_in_owner = true

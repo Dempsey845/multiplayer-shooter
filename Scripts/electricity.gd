@@ -75,6 +75,9 @@ func get_next_target() -> Node2D:
 	return closest_target
 
 func start(starting_target: Node2D):
+	if not starting_target or not is_instance_valid(starting_target):
+		return
+	
 	min_distance_between_targets_sq = min_distance_between_targets * min_distance_between_targets
 	
 	target_to_targets.clear()

@@ -15,13 +15,14 @@ var current_weapon_type: Weapon.Type:
 	set(value):
 		_change_weapon(value)
 
-var start_weapon_type := Weapon.Type.Gun
+var start_weapon_type := Weapon.Type.Hand
 
 @onready var weapons: Dictionary[Weapon.Type, Weapon] =\
 	{
 		Weapon.Type.Hand: %PunchHand,
 		Weapon.Type.Banana: %BananaThrow,
-		Weapon.Type.Gun: %Gun
+		Weapon.Type.Gun: %Gun,
+		Weapon.Type.ElectricGun: %ElectricGun,
 	}
 
 func _ready() -> void:

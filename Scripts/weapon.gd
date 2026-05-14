@@ -7,7 +7,8 @@ enum Type
 {
 	Hand,
 	Banana,
-	Gun
+	Gun,
+	ElectricGun
 }
 
 var weapon_type: Type

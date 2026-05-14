@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bojd1krja4h4w"]
+
+[ext_resource type="PackedScene" uid="uid://ceapjo2alwlod" path="res://Scenes/weapon/gun.tscn" id="1_texeh"]
+[ext_resource type="PackedScene" uid="uid://s005o7cyva3p" path="res://Scenes/electricity_bullet.tscn" id="2_vs8ib"]
+[ext_resource type="Texture2D" uid="uid://dbahnrssheitr" path="res://Assets/electricity/electric-gun.png" id="2_xe70k"]
+[ext_resource type="PackedScene" uid="uid://dpxa0pxjccaab" path="res://Scenes/electric_muzzle_flash.tscn" id="3_vs8ib"]
+[ext_resource type="AudioStream" uid="uid://du3f7gxuj6vgn" path="res://Assets/audio/electric-shoot-1.mp3" id="4_tw1nt"]
+[ext_resource type="AudioStream" uid="uid://7lo4reildpbw" path="res://Assets/audio/electric-shoot-2.mp3" id="5_p03t1"]
+[ext_resource type="AudioStream" uid="uid://c8vyjhnn1eysr" path="res://Assets/audio/electric-shoot-3.mp3" id="6_j067s"]
+[ext_resource type="AudioStream" uid="uid://yo46brmxm37w" path="res://Assets/audio/electric-shoot-4.mp3" id="7_o2b4c"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_54vsh"]
+random_pitch = 1.0656005
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("4_tw1nt")
+stream_1/stream = ExtResource("5_p03t1")
+stream_2/stream = ExtResource("6_j067s")
+stream_3/stream = ExtResource("7_o2b4c")
+
+[node name="ElectricGun" unique_id=1433380266 instance=ExtResource("1_texeh")]
+base_fire_rate = 0.4
+bullet_scene = ExtResource("2_vs8ib")
+muzzle_flash_scene = ExtResource("3_vs8ib")
+
+[node name="FireRateTimer" parent="." index="0" unique_id=1672947782]
+wait_time = 0.4
+
+[node name="GunStreamPlayer" parent="." index="1" unique_id=2043260818]
+stream = SubResource("AudioStreamRandomizer_54vsh")
+
+[node name="BarrelPosition" parent="." index="2" unique_id=1962756934]
+position = Vector2(16, -1)
+
+[node name="GunSprite" parent="." index="3" unique_id=952725318]
+visible = false
+
+[node name="ElectricGunSprite" type="Sprite2D" parent="." index="4" unique_id=276308941]
+texture = ExtResource("2_xe70k")
+offset = Vector2(4, 1)

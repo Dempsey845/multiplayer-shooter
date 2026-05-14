@@ -1,13 +1,13 @@
 extends Weapon
 
-const BASE_FIRE_RATE: float = 0.25
+
+@export var base_fire_rate: float = 0.25
+@export var bullet_scene: PackedScene
+@export var muzzle_flash_scene: PackedScene
 
 @onready var fire_rate_timer: Timer = %FireRateTimer
 @onready var gun_stream_player: AudioStreamPlayer = %GunStreamPlayer
 @onready var barrel_position: Marker2D = %BarrelPosition
-
-var bullet_scene: PackedScene = preload("uid://s005o7cyva3p")
-var muzzle_flash_scene: PackedScene = preload("uid://b6xpqkeu8aqs8")
 
 func try_fire():
 	if not fire_rate_timer.is_stopped():
@@ -32,7 +32,7 @@ func get_fire_rate() -> float:
 	)
 	
 	const MIN_FIRE_RATE := 0.05
-	return max(BASE_FIRE_RATE * (1 - (.1 * fire_rate_count)), MIN_FIRE_RATE)
+	return max(base_fire_rate * (1 - (.1 * fire_rate_count)), MIN_FIRE_RATE)
 	
 	
 @rpc("authority", "call_local", "unreliable")

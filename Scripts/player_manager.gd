@@ -7,7 +7,8 @@ var peer_id_to_weapons_unlocked: Dictionary[int, Array]
 var weapon_type_to_peer_conditions: Dictionary[Weapon.Type, Array] =\
 	{
 		Weapon.Type.Banana: [],
-		Weapon.Type.Gun: [PeerConditionManager.PeerCondition.HasUnlockedGun]
+		Weapon.Type.Gun: [PeerConditionManager.PeerCondition.HasUnlockedGun],
+		Weapon.Type.ElectricGun: [PeerConditionManager.PeerCondition.HasUnlockedGun]
 	}
 
 func _ready() -> void:
@@ -22,12 +23,12 @@ func add_peer_kill(peer_id: int):
 
 	peer_id_to_enemies_killed[peer_id] += 1
 	
-	print("Player kill count: %s" % peer_id_to_enemies_killed[peer_id])
-	
 	if peer_id_to_enemies_killed[peer_id] >= 20:
 		unlock_weapon_for(peer_id, Weapon.Type.Banana)
 	if peer_id_to_enemies_killed[peer_id] >= 30:
 		unlock_weapon_for(peer_id, Weapon.Type.Gun)
+	if peer_id_to_enemies_killed[peer_id] >= 50:
+		unlock_weapon_for(peer_id, Weapon.Type.ElectricGun)
 
 func has_peer_unlocked_weapon(peer_id: int, weapon_type: Weapon.Type) -> bool:
 	if not peer_id_to_weapons_unlocked.has(peer_id):

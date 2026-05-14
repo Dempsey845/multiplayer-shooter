@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://ceapjo2alwlod"]
 
 [ext_resource type="Script" uid="uid://biepej4kl5wyu" path="res://Scripts/gun.gd" id="1_j8sd1"]
+[ext_resource type="PackedScene" uid="uid://drkduhc11ouid" path="res://Scenes/bullet.tscn" id="2_lk2md"]
 [ext_resource type="AudioStream" uid="uid://oq2kq64uatep" path="res://Assets/audio/shot_1.wav" id="2_s2eva"]
+[ext_resource type="PackedScene" uid="uid://b6xpqkeu8aqs8" path="res://Scenes/effect/muzzle_flash.tscn" id="3_e0is2"]
 [ext_resource type="AudioStream" uid="uid://gnenfl0ue04t" path="res://Assets/audio/shot_2.wav" id="3_lk2md"]
 [ext_resource type="AudioStream" uid="uid://cxxmlw6vkyw30" path="res://Assets/audio/shot_3.wav" id="4_e0is2"]
 [ext_resource type="AudioStream" uid="uid://b08ac2ufy4q8x" path="res://Assets/audio/shot_4.wav" id="5_dups6"]
@@ -24,6 +26,8 @@ stream_6/stream = ExtResource("8_p6dj6")
 
 [node name="Gun" type="Node2D" unique_id=1433380266]
 script = ExtResource("1_j8sd1")
+bullet_scene = ExtResource("2_lk2md")
+muzzle_flash_scene = ExtResource("3_e0is2")
 
 [node name="FireRateTimer" type="Timer" parent="." unique_id=1672947782]
 unique_name_in_owner = true
