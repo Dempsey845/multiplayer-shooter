@@ -20,6 +20,9 @@ func _handle_hit(hitbox_component: HitboxComponent):
 	hit.emit()
 
 func _on_area_entered(other_area: Area2D):
+	if not is_instance_valid(other_area):
+		return
+	
 	if not is_multiplayer_authority() or other_area is not HitboxComponent:
 		return
 		
