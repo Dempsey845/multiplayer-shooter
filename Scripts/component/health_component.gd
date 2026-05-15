@@ -32,4 +32,3 @@ func heal(amount: int):
 
 func set_max_health(new_max_health: int):
 	max_health = new_max_health
-	current_health = max_health

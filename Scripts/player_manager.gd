@@ -11,6 +11,7 @@ var weapon_type_to_peer_conditions: Dictionary[Weapon.Type, Array] =\
 		Weapon.Type.ElectricGun: [PeerConditionManager.PeerCondition.HasUnlockedGun]
 	}
 
+
 func _ready() -> void:
 	GameEvents.enemy_died_by.connect(_on_enemy_died_by)
 

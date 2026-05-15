@@ -6,7 +6,8 @@
 [ext_resource type="Resource" uid="uid://833ej5ilm051" path="res://Resources/upgrade/damage.tres" id="4_xv632"]
 [ext_resource type="Resource" uid="uid://cq7chiw4fhwwa" path="res://Resources/upgrade/movement_speed.tres" id="5_t6ikl"]
 [ext_resource type="Resource" uid="uid://is24l143min2" path="res://Resources/upgrade/health_regen_rate.tres" id="6_hx6vf"]
+[ext_resource type="Resource" uid="uid://b6qn6m50red5b" path="res://Resources/upgrade/max_health.tres" id="7_hx6vf"]
 
 [node name="UpgradeManager" type="Node" unique_id=1604262829]
 script = ExtResource("1_463y7")
-available_upgrades = Array[ExtResource("2_10cvt")]([ExtResource("3_mjy00"), ExtResource("4_xv632"), ExtResource("5_t6ikl"), ExtResource("6_hx6vf")])
+available_upgrades = Array[ExtResource("2_10cvt")]([ExtResource("3_mjy00"), ExtResource("4_xv632"), ExtResource("5_t6ikl"), ExtResource("6_hx6vf"), ExtResource("7_hx6vf")])

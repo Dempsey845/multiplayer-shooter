@@ -4,6 +4,7 @@ extends CharacterBody2D
 signal died
 
 const BASE_MOVEMENT_SPEED: float = 100.0
+const BASE_MAX_HEALTH: int = 5
 
 @onready var player_input_synchronizer_component: PlayerInputSynchronizerComponent = $PlayerInputSynchronizerComponent
 @onready var health_component: HealthComponent = $HealthComponent
@@ -55,6 +56,13 @@ func _process(delta: float) -> void:
 		velocity = velocity.lerp(target_velocity, 1 - exp(-25 * delta))
 		
 		move_and_slide()
+		
+		var max_health_upgrade_count := UpgradeManager.get_peer_upgrade_count(
+		player_input_synchronizer_component.get_multiplayer_authority(),
+		"max_health"
+		)
+		
+		health_component.set_max_health(BASE_MAX_HEALTH + max_health_upgrade_count)
 	
 	if is_equal_approx(movement_vector.length_squared(), 0):
 		movement_animation_player.play("RESET")
